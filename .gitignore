@@ -1,0 +1,45 @@
+# mac system
+.DS_Store
+.Spotlight-V100
+.Trashes
+*.swp
+*~.nib
+
+# Xcode
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.pbxuser
+!default.pbxuser
+*.perspective
+*.perspectivev3
+!default.perspectivev3
+*.xcuserstate
+*.xcuserdatad
+*.xccheckout
+!default.xcworkspace
+*.moved-aside
+
+*tmproj
+xcuserdata
+
+DerivedData
+
+# jetbrains
+.idea/libraries/*.xml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/codeStyleSettings.xml
+dataSources.ids
+datasources.xml
+*.iws
+
+*.pyc
+
+# carthage
+/Carthage/Build/
+
+# dev stuff that might hang around
+/dist/
+/build/
