@@ -1,4 +1,8 @@
 
+<p align="center">
+<img src="https://raw.githubusercontent.com/goposse/haitch/assets/haitch_logo.png" align="center" width="460">
+</p>
+
 Haitch is an HTTP Client written in Swift for iOS and Mac OS X.
 
 # Features
