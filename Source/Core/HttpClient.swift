@@ -38,13 +38,13 @@ import Foundation
 
 public struct Method {
   public static let OPTIONS: String = "OPTIONS"
-  public static let GET: String = "GET"
-  public static let HEAD: String = "HEAD"
-  public static let POST: String = "POST"
-  public static let PUT: String = "PUT"
-  public static let PATCH: String = "PATCH"
-  public static let DELETE: String = "DELETE"
-  public static let TRACE: String = "TRACE"
+  public static let GET: String     = "GET"
+  public static let HEAD: String    = "HEAD"
+  public static let POST: String    = "POST"
+  public static let PUT: String     = "PUT"
+  public static let PATCH: String   = "PATCH"
+  public static let DELETE: String  = "DELETE"
+  public static let TRACE: String   = "TRACE"
   public static let CONNECT: String = "CONNECT"
 }
 

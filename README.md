@@ -3,6 +3,8 @@
 <img src="https://raw.githubusercontent.com/goposse/haitch/assets/haitch_logo.png" align="center" width="460">
 </p>
 
+>H (named aitch /ˈeɪtʃ/ or haitch /ˈheɪtʃ/ in Ireland and parts of Australasia; plural aitches or haitches)
+
 Haitch is an HTTP Client written in Swift for iOS and Mac OS X.
 
 # Features
@@ -20,14 +22,28 @@ Making a request is easy
 ```swift
 let httpClient: HttpClient = HttpClient()
 let req: Request = Request.Builder()
-    .url(url: "http://my.domain.com/path", params: params)
-    .method("GET")
-    .build()
+  .url(url: "http://my.domain.com/path", params: params)
+  .method("GET")
+  .build()
 
 httpClient.execute(req) { (response: Response?, error: NSError?) -> Void in
-    // deal with the response data (NSData) or error (NSError)
+  // deal with the response data (NSData) or error (NSError)
 }
 ```
+
+## JSON
+
+Getting back JSON is simple
+
+```swift
+client.execute(request: req, responseKind: JsonResponse.self) { 
+  (response, error) -> Void in
+    if let jsonResponse: JsonResponse = response as? JsonResponse {
+      print(jsonResponse.json)      // .json == AnyObject?
+    }
+  }
+```
+
 
 # FAQ
 
