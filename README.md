@@ -49,6 +49,40 @@ client.execute(request: req, responseKind: JsonResponse.self) {
   }
 ```
 
+# Custom Responses
+
+If you use SwiftyJSON you could create a custom Response class to convert the `Response` data to the `JSON` data type. It's very easy to do so.
+
+```swift
+import Foundation
+import SwiftyJSON
+
+public class SwiftyJsonResponse: Response {
+  
+  private (set) public var json: JSON?
+  private (set) public var jsonError: AnyObject?
+  
+  public convenience required init(response: Response) {
+    self.init(request: response.request, data: response.data, statusCode: response.statusCode, 
+        error: response.error)
+  }
+  
+  public override init(request: Request, data: NSData?, statusCode: Int, error: NSError?) {
+    super.init(request: request, data: data, statusCode: statusCode, error: error)
+    self.populateJSONWithResponseData(data)
+  }
+  
+  private func populateJSONWithResponseData(data: NSData?) {
+    if data != nil {
+      var jsonError: NSError? = nil
+      let json: JSON = JSON(data: data!, options: .AllowFragments, error: &jsonError)
+      self.jsonError = jsonError
+      self.json = json
+    }
+  }
+  
+}
+```
 
 # FAQ
 
