@@ -17,7 +17,7 @@ Haitch is an HTTP Client written in Swift for iOS and Mac OS X.
 - Full featured, but none of the bloat
 - Easy to understand, Builder-based architecture
 - `Request` / `Response` injection allowing for "plug-in" functionality
-- Extensible `Repsonse` interface so you can design for whatever specific response your app requires
+- Extensible `Response` interface so you can design for whatever specific response your app requires
 
 
 # The basics
