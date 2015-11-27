@@ -19,6 +19,24 @@ Haitch is an HTTP Client written in Swift for iOS and Mac OS X.
 - `Request` / `Response` injection allowing for "plug-in" functionality
 - Extensible `Response` interface so you can design for whatever specific response your app requires
 
+# Installation
+
+## Cocoapods
+
+Add the following line to your `Podfile`:
+
+`pod 'Haitch', '~> 0.5'`
+
+Then run `pod update` or `pod install` (if starting from scratch).
+
+## Carthage
+
+Add the following line to your `Cartfile`:
+
+`github "goposse/Haitch"`
+
+Run `carthage update` and then follow the installation instructions [here](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
+
 
 # The basics
 
