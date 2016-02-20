@@ -57,7 +57,7 @@ public extension String {
    Remove the last character from a string
    - returns: The original string with the last character removed
    */
-  public func chop() -> String {
+  internal func chop() -> String {
     let index: String.Index = self.endIndex.advancedBy(-1)
     return self.substringToIndex(index)
   }
