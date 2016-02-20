@@ -25,7 +25,7 @@ Haitch is an HTTP Client written in Swift for iOS and Mac OS X.
 
 Add the following line to your `Podfile`:
 
-`pod 'Haitch', '~> 0.5'`
+`pod 'Haitch', '~> 0.5.1'`
 
 Then run `pod update` or `pod install` (if starting from scratch).
 
