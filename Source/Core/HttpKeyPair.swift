@@ -5,7 +5,7 @@
 //  Created by Posse in NYC
 //  http://goposse.com
 //
-//  Copyright (c) 2015 Posse Productions LLC.
+//  Copyright (c) 2016 Posse Productions LLC.
 //  All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
@@ -38,12 +38,12 @@ public struct HttpKeyPair {
   
   public var key: String! {
     didSet {
-      self.escapedKey = String.percentEncodedString(key)
+      self.escapedKey = String.escape(key)
     }
   }
   public var value: AnyObject! {
     didSet {
-      self.escapedValueString = String.percentEncodedString(value.description)
+      self.escapedValueString = String.escape(value.description)
     }
   }
   private (set) public var escapedKey: String!
@@ -53,8 +53,8 @@ public struct HttpKeyPair {
   public init(key: String, value: AnyObject) {
     self.key = key
     self.value = value
-    self.escapedKey = String.percentEncodedString(key)
-    self.escapedValueString = String.percentEncodedString(value.description)
+    self.escapedKey = String.escape(key)
+    self.escapedValueString = String.escape(value.description)
   }
   
   // MARK: - Standard functions

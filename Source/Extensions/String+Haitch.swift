@@ -5,7 +5,7 @@
 //  Created by Posse in NYC
 //  http://goposse.com
 //
-//  Copyright (c) 2015 Posse Productions LLC.
+//  Copyright (c) 2016 Posse Productions LLC.
 //  All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
@@ -36,23 +36,6 @@ import Foundation
 
 public extension String {
   
-  public static func percentEncodedString(string: String) -> String {
-    return percentEncodedString(string, encoding: NSUTF8StringEncoding)
-  }
-  
-  /*
-  Converts a string to its URL encoded form
-  :returns: a URL encoded string
-  Borrowed from Alamofire
-  */
-  public static func percentEncodedString(string: String, encoding: NSStringEncoding) -> String {
-    let generalDelimiters = ":#[]@"       // does not include "?" or "/" due to RFC 3986 - Section 3.4
-    let subDelimiters = "!$&'()*+,;="
-    let legalURLCharactersToBeEscaped: CFStringRef = generalDelimiters + subDelimiters
-    return CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, string as CFStringRef, nil,
-      legalURLCharactersToBeEscaped as CFStringRef, CFStringConvertNSStringEncodingToEncoding(encoding)) as String
-  }
-  
   /**
    Remove the last character from a string
    - returns: The original string with the last character removed
@@ -61,14 +44,19 @@ public extension String {
     let index: String.Index = self.endIndex.advancedBy(-1)
     return self.substringToIndex(index)
   }
-  
-  public static func escape(string: String) -> String {
-    let generalDelimiters = ":#[]@"       // does not include "?" or "/" due to RFC 3986 - Section 3.4
-    let subDelimiters = "!$&'()*+,;="
-    let legalURLCharactersToBeEscaped: CFStringRef = generalDelimiters + subDelimiters
-    return CFURLCreateStringByAddingPercentEscapes(nil, string, nil, legalURLCharactersToBeEscaped,
-      CFStringBuiltInEncodings.UTF8.rawValue) as String
+
+  internal static func isNotEmpty(string: String?) -> Bool {
+    if string != nil {
+      return ((string!).characters.count > 0)
+    } else {
+      return false
+    }
   }
+
+  public static func escape(string: String) -> String? {
+    return string.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+  }
+  
   
   /**
    Retrieves any query string parameters from the string as a Dictionary of String keys and String values
@@ -101,17 +89,7 @@ public extension String {
   }
   
   
-  public func escapedString() -> String {
-    return String.percentEncodedString(self, encoding: NSUTF8StringEncoding)
+  public func escapedString() -> String? {
+    return String.escape(self)
   }
-
-  
-  public static func isNotEmpty(string: String?) -> Bool {
-    if string != nil {
-      return ((string!).characters.count > 0)
-    } else {
-      return false
-    }
-  }
-  
 }

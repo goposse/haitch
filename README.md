@@ -25,7 +25,7 @@ Haitch is an HTTP Client written in Swift for iOS and Mac OS X.
 
 Add the following line to your `Podfile`:
 
-`pod 'Haitch', '~> 0.5.1'`
+`pod 'Haitch', '~> 0.5.2'`
 
 Then run `pod update` or `pod install` (if starting from scratch).
 
@@ -33,7 +33,7 @@ Then run `pod update` or `pod install` (if starting from scratch).
 
 Add the following line to your `Cartfile`:
 
-`github "goposse/Haitch"`
+`github "goposse/Haitch" ~> 0.5`
 
 Run `carthage update` and then follow the installation instructions [here](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
 
