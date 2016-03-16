@@ -22,6 +22,7 @@
 		A30C5F841BFD8E190084FF49 /* NetLoggerCallProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F7F1BFD8E190084FF49 /* NetLoggerCallProtocol.swift */; };
 		A30C5F851BFD8E190084FF49 /* JsonRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F811BFD8E190084FF49 /* JsonRequestBody.swift */; };
 		A30C5F861BFD8E190084FF49 /* JsonResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F831BFD8E190084FF49 /* JsonResponse.swift */; };
+		CA0822AA1C99B3DC00FBC7F2 /* BinaryRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0822A91C99B3DC00FBC7F2 /* BinaryRequestBody.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		A30C5F7F1BFD8E190084FF49 /* NetLoggerCallProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetLoggerCallProtocol.swift; sourceTree = "<group>"; };
 		A30C5F811BFD8E190084FF49 /* JsonRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonRequestBody.swift; sourceTree = "<group>"; };
 		A30C5F831BFD8E190084FF49 /* JsonResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonResponse.swift; sourceTree = "<group>"; };
+		CA0822A91C99B3DC00FBC7F2 /* BinaryRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryRequestBody.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				A30C5F811BFD8E190084FF49 /* JsonRequestBody.swift */,
+				CA0822A91C99B3DC00FBC7F2 /* BinaryRequestBody.swift */,
 			);
 			name = Requests;
 			path = requests;
@@ -290,6 +293,7 @@
 			files = (
 				A30C5F731BFD69800084FF49 /* Response.swift in Sources */,
 				A30C5F721BFD69800084FF49 /* RequestBody.swift in Sources */,
+				CA0822AA1C99B3DC00FBC7F2 /* BinaryRequestBody.swift in Sources */,
 				A30C5F761BFD6A530084FF49 /* NetHelper.swift in Sources */,
 				A30C5F781BFD6AC00084FF49 /* String+Haitch.swift in Sources */,
 				A30C5F701BFD69800084FF49 /* MultipartRequestBody.swift in Sources */,

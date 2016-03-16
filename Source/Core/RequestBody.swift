@@ -53,7 +53,7 @@ public class RequestBody {
   public var contentType: String!
   
   private (set) public var contentLength: Int = -1
-  private (set) public var data: NSData! {
+  internal (set) public var data: NSData! {
     didSet {
       self.contentLength = data.length
     }
@@ -66,10 +66,11 @@ public class RequestBody {
   public init() {
     values = []
     contentType = "application/x-www-form-urlencoded"
+    data = NSData()
   }
   
   
-  // MARK: - Value management
+  // MARK: - Value management  
   public func addValue(name: String, value: AnyObject) {
     values.append(BodyValue(name: name, value: value))
   }
