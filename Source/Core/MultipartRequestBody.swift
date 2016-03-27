@@ -101,7 +101,7 @@ public class MultipartRequestBody : RequestBody {
   public var boundaryCRLF = "\r\n"
   
   // MARK: - Initialization
-  override init() {
+  public override init() {
     super.init()
     self.boundary = "Boundary+\(arc4random())\(arc4random())"
   }
