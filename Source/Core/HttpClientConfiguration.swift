@@ -44,6 +44,8 @@ public struct HttpClientConfiguration {
                                                              // and halt the network call immediately, if false, dont run any other protocols
                                                              // but continue execution of the call
   
+  public var treatStatusesAsErrors: Bool = false            // Treat non-success statuses as errors (will be anything > 400)
+  
   public init() {
   }
 }

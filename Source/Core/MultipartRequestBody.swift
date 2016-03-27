@@ -80,7 +80,7 @@ public class MultipartRequestBody : RequestBody {
     func contentDisposition() -> String {
       let name: String = self.name ?? "untitled"
       var dispositionValue: String = "form-data; name=\"\(name)\""
-      if self.fileName != nil {
+      if self.fileName != nil && self.fileName?.characters.count >= 0 {
         let fileName: String = self.fileName ?? "untitled.\(MimeType.defaultExtension(self.mimeType))"
         dispositionValue += "; fileName=\"\(fileName)\""
       }
@@ -107,7 +107,7 @@ public class MultipartRequestBody : RequestBody {
   }
 
   public func addFilePart(fileData: NSData, name: String) {
-    self.values.append(Part(name: name, data: fileData, fileName: nil, mimeType: nil))
+    self.values.append(Part(name: name, data: fileData, fileName: "form_file", mimeType: nil))
   }
   
   public func addFilePart(fileData: NSData, name: String, fileName: String, mimeType: String) {

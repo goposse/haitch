@@ -181,10 +181,17 @@ public class HttpClient {
       dataTask = httpSession.dataTaskWithRequest(urlRequest,
         completionHandler: { (data: NSData?, urlResponse: NSURLResponse?, error: NSError?) in
           
+          var responseError: NSError? = error
           var response: Response? = nil
           if let httpResponse: NSHTTPURLResponse = urlResponse as? NSHTTPURLResponse {
+            if response?.statusCode >= 400 && self.configuration.treatStatusesAsErrors {
+              responseError = NSError(domain: ErrorConfig.Domain, code: httpResponse.statusCode,
+                userInfo: [
+                  NSLocalizedDescriptionKey : "The server returned with an error status code"
+                ])
+            }
             response = Response(request: modRequest, data: data, statusCode: httpResponse.statusCode,
-              error: error)
+              error: responseError)
             if responseKind != nil {
               response = responseKind!.init(response: response!)
             }
@@ -200,7 +207,7 @@ public class HttpClient {
             }
           }
           if callback != nil {
-            callback!(response: response, error: error)
+            callback!(response: response, error: responseError)
           }
         })
       
