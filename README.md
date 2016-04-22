@@ -19,6 +19,12 @@ Haitch is an HTTP Client written in Swift for iOS and Mac OS X.
 - `Request` / `Response` injection allowing for "plug-in" functionality
 - Extensible `Response` interface so you can design for whatever specific response your app requires
 
+
+# Swift version
+
+Haitch `0.7+` and `development` require swift 2.2+. If you're using a version of swift < 2.2, you should use Haitch version `0.6`.
+
+
 # Installation
 
 ## CocoaPods
@@ -59,7 +65,7 @@ httpClient.execute(req) { (response: Response?, error: NSError?) -> Void in
 Getting back JSON is simple
 
 ```swift
-client.execute(request: req, responseKind: JsonResponse.self) { 
+client.execute(request: req, responseKind: JsonResponse.self) {
   (response, error) -> Void in
     if let jsonResponse: JsonResponse = response as? JsonResponse {
       print(jsonResponse.json)      // .json == AnyObject?
@@ -76,20 +82,20 @@ import Foundation
 import SwiftyJSON
 
 public class SwiftyJsonResponse: Response {
-  
+
   private (set) public var json: JSON?
   private (set) public var jsonError: AnyObject?
-  
+
   public convenience required init(response: Response) {
-    self.init(request: response.request, data: response.data, statusCode: response.statusCode, 
+    self.init(request: response.request, data: response.data, statusCode: response.statusCode,
         error: response.error)
   }
-  
+
   public override init(request: Request, data: NSData?, statusCode: Int, error: NSError?) {
     super.init(request: request, data: data, statusCode: statusCode, error: error)
     self.populateJSONWithResponseData(data)
   }
-  
+
   private func populateJSONWithResponseData(data: NSData?) {
     if data != nil {
       var jsonError: NSError? = nil
@@ -98,7 +104,7 @@ public class SwiftyJsonResponse: Response {
       self.json = json
     }
   }
-  
+
 }
 ```
 
@@ -129,13 +135,8 @@ Haitch is sponsored, owned and maintained by [Posse Productions LLC](http://gopo
 
 ### Security
 
-If you believe you have identified a serious security vulnerability or issue with Haitch, please report it as soon as possible to apps@goposse.com. Please refrain from posting it to the public issue tracker so that we have a chance to address it and notify everyone accordingly. 
+If you believe you have identified a serious security vulnerability or issue with Haitch, please report it as soon as possible to apps@goposse.com. Please refrain from posting it to the public issue tracker so that we have a chance to address it and notify everyone accordingly.
 
 ## License
 
 Haitch is released under a modified MIT license. See LICENSE for details.
-
-
-
-
-
