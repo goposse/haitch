@@ -66,8 +66,7 @@ public extension String {
     var params: [HttpKeyPair] = []
     let startRange: Range<String.Index>? = self.rangeOfString("?")
     if startRange != nil {
-      let queryRange: Range<String.Index> = Range<String.Index>(start: startRange!.startIndex.advancedBy(1),
-        end: self.endIndex)
+      let queryRange: Range<String.Index> = startRange!.startIndex.advancedBy(1) ..< self.endIndex
       let queryString: String = self.substringWithRange(queryRange)
       let stringPairs: [String] = queryString.componentsSeparatedByString("&")
       for pair: String in stringPairs {

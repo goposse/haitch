@@ -18,10 +18,24 @@
 		A30C5F731BFD69800084FF49 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F6B1BFD69800084FF49 /* Response.swift */; };
 		A30C5F761BFD6A530084FF49 /* NetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F751BFD6A530084FF49 /* NetHelper.swift */; };
 		A30C5F781BFD6AC00084FF49 /* String+Haitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F771BFD6AC00084FF49 /* String+Haitch.swift */; };
-		A30C5F7B1BFD7AFE0084FF49 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A30C5F791BFD7AFE0084FF49 /* LICENSE */; };
 		A30C5F841BFD8E190084FF49 /* NetLoggerCallProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F7F1BFD8E190084FF49 /* NetLoggerCallProtocol.swift */; };
 		A30C5F851BFD8E190084FF49 /* JsonRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F811BFD8E190084FF49 /* JsonRequestBody.swift */; };
 		A30C5F861BFD8E190084FF49 /* JsonResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F831BFD8E190084FF49 /* JsonResponse.swift */; };
+		A32F60831CCADCFF007AB3AE /* HttpCallProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F641BFD69800084FF49 /* HttpCallProtocol.swift */; };
+		A32F60841CCADCFF007AB3AE /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F651BFD69800084FF49 /* HttpClient.swift */; };
+		A32F60851CCADCFF007AB3AE /* HttpClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F661BFD69800084FF49 /* HttpClientConfiguration.swift */; };
+		A32F60861CCADCFF007AB3AE /* HttpKeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F671BFD69800084FF49 /* HttpKeyPair.swift */; };
+		A32F60871CCADCFF007AB3AE /* MultipartRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F681BFD69800084FF49 /* MultipartRequestBody.swift */; };
+		A32F60881CCADCFF007AB3AE /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F691BFD69800084FF49 /* Request.swift */; };
+		A32F60891CCADCFF007AB3AE /* RequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F6A1BFD69800084FF49 /* RequestBody.swift */; };
+		A32F608A1CCADCFF007AB3AE /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F6B1BFD69800084FF49 /* Response.swift */; };
+		A32F608B1CCADCFF007AB3AE /* String+Haitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F771BFD6AC00084FF49 /* String+Haitch.swift */; };
+		A32F608C1CCADCFF007AB3AE /* NetLoggerCallProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F7F1BFD8E190084FF49 /* NetLoggerCallProtocol.swift */; };
+		A32F608D1CCADCFF007AB3AE /* JsonRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F811BFD8E190084FF49 /* JsonRequestBody.swift */; };
+		A32F608E1CCADCFF007AB3AE /* BinaryRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0822A91C99B3DC00FBC7F2 /* BinaryRequestBody.swift */; };
+		A32F608F1CCADCFF007AB3AE /* JsonResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F831BFD8E190084FF49 /* JsonResponse.swift */; };
+		A32F60901CCADCFF007AB3AE /* NetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F751BFD6A530084FF49 /* NetHelper.swift */; };
+		A32F60911CCADD0F007AB3AE /* Haitch.h in Headers */ = {isa = PBXBuildFile; fileRef = A30C5F601BFD679F0084FF49 /* Haitch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA0822AA1C99B3DC00FBC7F2 /* BinaryRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0822A91C99B3DC00FBC7F2 /* BinaryRequestBody.swift */; };
 /* End PBXBuildFile section */
 
@@ -191,6 +205,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A32F60911CCADD0F007AB3AE /* Haitch.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,7 +288,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A30C5F7B1BFD7AFE0084FF49 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +326,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A32F60831CCADCFF007AB3AE /* HttpCallProtocol.swift in Sources */,
+				A32F60841CCADCFF007AB3AE /* HttpClient.swift in Sources */,
+				A32F60851CCADCFF007AB3AE /* HttpClientConfiguration.swift in Sources */,
+				A32F60861CCADCFF007AB3AE /* HttpKeyPair.swift in Sources */,
+				A32F60871CCADCFF007AB3AE /* MultipartRequestBody.swift in Sources */,
+				A32F60881CCADCFF007AB3AE /* Request.swift in Sources */,
+				A32F60891CCADCFF007AB3AE /* RequestBody.swift in Sources */,
+				A32F608A1CCADCFF007AB3AE /* Response.swift in Sources */,
+				A32F608B1CCADCFF007AB3AE /* String+Haitch.swift in Sources */,
+				A32F608C1CCADCFF007AB3AE /* NetLoggerCallProtocol.swift in Sources */,
+				A32F608D1CCADCFF007AB3AE /* JsonRequestBody.swift in Sources */,
+				A32F608E1CCADCFF007AB3AE /* BinaryRequestBody.swift in Sources */,
+				A32F608F1CCADCFF007AB3AE /* JsonResponse.swift in Sources */,
+				A32F60901CCADCFF007AB3AE /* NetHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,7 +488,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.goposse.haitch;
 				PRODUCT_NAME = Haitch;
 				SDKROOT = macosx;
@@ -482,7 +510,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.goposse.haitch;
 				PRODUCT_NAME = Haitch;
 				SDKROOT = macosx;
