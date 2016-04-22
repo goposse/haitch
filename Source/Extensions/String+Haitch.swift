@@ -57,7 +57,6 @@ public extension String {
     return string.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
   }
   
-  
   /**
    Retrieves any query string parameters from the string as a Dictionary of String keys and String values
    - returns: A Dictionary of any found parameters and their values, otherwise, an empty Dictionary
@@ -91,4 +90,9 @@ public extension String {
   public func escapedString() -> String? {
     return String.escape(self)
   }
+
+  public func unescapedString() -> String? {
+    return self.stringByRemovingPercentEncoding
+  }
+
 }
