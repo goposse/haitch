@@ -31,7 +31,7 @@ Haitch `0.7+` and `development` require swift 2.2+. If you're using a version of
 
 Add the following line to your `Podfile`:
 
-`pod 'Haitch', '~> 0.5.2'`
+`pod 'Haitch', '~> 0.7'`
 
 Then run `pod update` or `pod install` (if starting from scratch).
 
@@ -39,7 +39,7 @@ Then run `pod update` or `pod install` (if starting from scratch).
 
 Add the following line to your `Cartfile`:
 
-`github "goposse/haitch" ~> 0.5`
+`github "goposse/haitch" ~> 0.7`
 
 Run `carthage update` and then follow the installation instructions [here](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
 
