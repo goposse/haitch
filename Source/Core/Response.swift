@@ -38,19 +38,22 @@ public class Response {
   
   private (set) public var request: Request
   private (set) public var data: NSData? = nil
+  private (set) public var headers: [NSObject : AnyObject]? = nil
   private (set) public var statusCode: Int = 0
   private (set) public var error: NSError? = nil
   
   required public init(response: Response) {
     self.request = response.request
     self.data = response.data
+    self.headers = response.headers
     self.statusCode = response.statusCode
     self.error = response.error
   }
   
-  public init(request: Request, data: NSData?, statusCode: Int, error: NSError?) {
+  public init(request: Request, data: NSData?, headers: [NSObject : AnyObject]?, statusCode: Int, error: NSError?) {
     self.request = request
     self.data = data
+    self.headers = headers
     self.statusCode = statusCode
     self.error = error
   }

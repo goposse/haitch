@@ -40,11 +40,11 @@ public class JsonResponse: Response {
   private (set) public var jsonError: AnyObject?
   
   public convenience required init(response: Response) {
-    self.init(request: response.request, data: response.data, statusCode: response.statusCode, error: response.error)
+    self.init(request: response.request, data: response.data, headers: response.headers, statusCode: response.statusCode, error: response.error)
   }
   
-  public override init(request: Request, data: NSData?, statusCode: Int, error: NSError?) {
-    super.init(request: request, data: data, statusCode: statusCode, error: error)
+  public override init(request: Request, data: NSData?, headers: [NSObject : AnyObject]?, statusCode: Int, error: NSError?) {
+    super.init(request: request, data: data, headers: headers, statusCode: statusCode, error: error)
     self.populateFromResponseData(data)
   }
 

@@ -190,7 +190,8 @@ public class HttpClient {
                   NSLocalizedDescriptionKey : "The server returned with an error status code"
                 ])
             }
-            response = Response(request: modRequest, data: data, statusCode: httpResponse.statusCode,
+            let headers: [NSObject : AnyObject] = httpResponse.allHeaderFields
+            response = Response(request: modRequest, data: data, headers: headers, statusCode: httpResponse.statusCode,
               error: responseError)
             if responseKind != nil {
               response = responseKind!.init(response: response!)
