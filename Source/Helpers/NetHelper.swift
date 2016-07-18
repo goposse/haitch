@@ -36,7 +36,7 @@ import Foundation
 
 /**
  Helper class for common network related tasks such as building query strings, 
- URL paths, etc.
+   URL paths, etc.
  */
 public class NetHelper {
   

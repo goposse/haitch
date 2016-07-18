@@ -34,15 +34,31 @@
 
 import Foundation
 
-
+/**
+ Wrapper around an array of HttpKeyPair that could be used to build a URL query or
+   a request.
+ 
+ - seealso: HttpKeyPair
+ */
 public class RequestParams {
   
+  /// An array of HttpKeyPair values.
   private var params: [HttpKeyPair]!
   
+  /**
+   Default initializer for RequestParams.  Defaults the params property to an empty array.
+   */
   public init() {
     self.params = []
   }
   
+  /**
+   Initializer that creates a RequestParams object with the passed in dictionary.  
+     Fills the params property with the dictionary values and keys.
+   
+   - parameter dictionary: The dictionary of values to fill the params property 
+       with.
+   */
   public init(dictionary: [String : String]) {
     self.params = []
     for (key, val) in dictionary {
@@ -50,6 +66,17 @@ public class RequestParams {
     }
   }
   
+  /**
+   Subscript operator to access the params property and get the values associated
+     with a certain key.
+   
+   - parameter name: The key of the HttpKeyPair values within the params property that
+       you are interested in.  
+   
+   - returns: An array of Strings, populated from any value property of an HttpKeyPair
+       that has a key peoperty that matches the name parameter passed in.  If there are
+       no matches, an empty array is returned.
+   */
   public subscript(name: String) -> [String] {
     get {
       let results: [HttpKeyPair] = self.params.filter { $0.key == name }
@@ -63,18 +90,30 @@ public class RequestParams {
     }
   }
 
+  /**
+   Appends an HttpKeyPair, built from the passed in parameters, to the params
+     property.
+   
+   - parameter name: The key of the HttpKeyPair that will be built and appended to
+       the params property.
+   
+   - parameter key: The value of the HttpKeyPair that will be built and appended to
+       the params property.
+   */
   public func append(name key: String, value: String) {
     self.params.append(HttpKeyPair(key: key, value: value))
   }
   
+  /**
+   Returns the params property of this RequestParams object.
+   
+   - returns: The params property.
+   */
   public func allParams() -> [HttpKeyPair] {
     return self.params
   }
   
-  
 }
-
-
 
 public class Request {
   
