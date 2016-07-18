@@ -34,14 +34,34 @@
 
 import Foundation
 
+/**
+ The request body of an HTTP Request.  The default is x-www-form-urlencoded, but
+   this class can easily be extended for any type, e.g. JsonRequestBody and BinaryRequestBody.
+ 
+ - important: It is critically important to call build() on your RequestBody before 
+     using it in an Http Request. Failing to do so will almost always result in a crash.
+ */
 public class RequestBody {
   
   // MARK: - body value storage
+  
+  /**
+   Stores a key and value for populating a body form.
+   */
   public class BodyValue {
     
+    /// The key of the BodyValue
     public var name: String
+    
+    /// The value of the BodyValue
     public var value: AnyObject
     
+    /**
+     Initializer for a BodyValue
+     
+     - parameter name: The key of the BodyValue
+     - parameter value: The value of the BodyValue
+     */
     public init(name: String, value: AnyObject) {
       self.name = name
       self.value = value
@@ -50,19 +70,34 @@ public class RequestBody {
   
 
   // MARK: - Properties
+  
+  /// The content type of the body, which describes the data contained within it.
+  /// The base RequestBody content type is application/x-www-form-urlencoded.
   public var contentType: String!
   
+  /// The content length of the data within the body.  It is set when the data
+  /// property is set.
   private (set) public var contentLength: Int = -1
+  
+  /// The data of the body.  When set, it also sets the contentLength property.
   internal (set) public var data: NSData! {
     didSet {
       self.contentLength = data.length
     }
   }
   
+  /// An array of BodyValue objects that are used when building the RequestBody.
   internal (set) public var values: [BodyValue] = []
   
-  
   // MARK: - Initialization
+  
+  /**
+   Default initializer for the RequestBody class.  Below is how the properties are
+     set:
+   - values = []
+   - contentType = "application/x-www-form-urlencoded"
+   - data = NSData()
+   */
   public init() {
     values = []
     contentType = "application/x-www-form-urlencoded"
@@ -71,24 +106,61 @@ public class RequestBody {
   
   
   // MARK: - Value management  
+  
+  /**
+   Appends a BodyValue to the values property.
+   
+   - parameter name: The key of the BodyValue that will be constructed and added to the
+       values property.
+   - parameter value: The value of the BodyValue that will be constructed and added to the
+       values property.
+   */
   public func addValue(name: String, value: AnyObject) {
     values.append(BodyValue(name: name, value: value))
   }
   
+  /**
+   Removes a value from the values property at the passed in index.
+   
+   - parameter atIndex: The index of the BodyValue to remove from the values property.
+   */
   public func removeValue(atIndex index: Int) {
     values.removeAtIndex(index)
   }
   
+  /**
+   Returns the data property of this RequestBody.
+   
+   - returns: The data property of this RequestBody.
+   */
   public func bodyData() -> NSData {
     return self.data
   }
   
+  /**
+   Returns the body headers of this RequestBody.
+   
+   - warning: I am not sure why this was written or what it does.  All it does is
+       return [:], i.e. an empty dictionary.
+   
+   - returns: The body headers of this RequestBody, always returns an empty dictionary.
+   */
   public func bodyHeaders() -> [String : String] {
     return [:]
   }
 
   
   // MARK: - Params conversion
+  
+  /**
+   Converts an array of BodyValue objects into a RequestParams object.  Used when building
+     the RequestBody.
+   
+   - parameter values: An array of BodyValue objects that are used to build a RequestParams
+       object.
+   
+   - returns: A RequestParams object built from the values that were passed in.
+   */
   internal func bodyValuesToParams(values: [BodyValue]) -> RequestParams {
     let params: RequestParams = RequestParams()
     for bodyValue: BodyValue in values {
@@ -99,11 +171,27 @@ public class RequestBody {
   
   
   // MARK: - Body build
+  
+  /**
+   Generates the data for the RequestBody so that it can be used in an HTTP request.
+     Also sets the contentLength of the RequestBody to the length of the data that is 
+     generated.
+   
+   - important: It is critically important that you call this function before using
+       this RequestBody in an HTTP request.
+   */
   public func build() {
     self.data = generateData()
     self.contentLength = data.length
   }
 
+  /**
+   Generates data from the values property of the RequestBody.  First it converts
+     the values property into a RequestParams object.  Then it uses that object to
+     build a query string.  Then it encodes that string as NSData and returns it.
+   
+   - returns: The data that has been generated from this RequestBody.
+   */
   internal func generateData() -> NSMutableData {
     var data: NSMutableData = NSMutableData()
     let queryString: String = NetHelper.queryString(paramsDictionary: self.bodyValuesToParams(self.values))

@@ -34,9 +34,43 @@
 
 import Foundation
 
+/**
+ An object that conforms to this protocol can be notified before a request is executed,
+   and when a response is received.  It must be added to the HTTPClient that is making 
+   requests and receiving responses.
+ */
 public protocol HttpCallProtocol {
   
+  /**
+   Called before an HTTP request is executed.
+   
+   - parameter request: The request that is about to be executed.
+   
+   - returns: Should return a tuple populated with the following information:
+     - gotoNext: Bool - Depending on the HTTPClientConfiguration, this could have different effects.
+         If gotoNext is false, all subsequent protocols are NOT run.  If gotoNext is false AND the configuration
+         has shouldHaltOnProtocolSkip set to true, it also will also halt the request, and use the 
+         response value of the tuple on the response callback.  If gotoNext is true, the next protocol
+         is run and business continues as usual.
+     - request: Request - The request that will be used in all subsequent HttpCallProtocols and as the HTTP request
+         if it is not overwritten by another protocol.
+     - response: Response? - See the description of gotoNext, but this can be used for an early
+         response without a network call if desired.
+   */
   func handleRequest(request: Request) -> (gotoNext: Bool, request: Request, response: Response?)
+  
+  /**
+   Called when an HTTP response has been received.
+   
+   - parameter response: The response that was received.
+   
+   - returns: Should return a tuple populated with the following information:
+       - gotoNext: Bool - If false, all subsequent protocols are NOT run.  If true, the next
+           the next protocol is run.
+       - response: Response - The response that will be used by all subsequent protocols,
+           and if it is not overwritten by a subsequent protocol, the response that will be 
+           used in the callback.
+   */
   func handleResponse(response: Response) -> (gotoNext: Bool, response: Response)
   
 }
