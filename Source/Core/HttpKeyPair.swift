@@ -34,22 +34,53 @@
 
 import Foundation
 
+/**
+ Wraps HTTP key pair values into a struct, and maintains the escaped versions
+   of the key and value.
+ - seealso: String+Haitch.swift
+ */
 public struct HttpKeyPair {
   
+  /**
+   The key of the key value pair.  When set, the escapedKey is also set as
+     the escaped string of the key.
+  */
   public var key: String! {
     didSet {
       self.escapedKey = String.escape(key)
     }
   }
+  
+  /**
+   The value of the key value pair.  When set, the escapedValueString key is also
+     set as the escaped string of the value.
+   */
   public var value: AnyObject! {
     didSet {
       self.escapedValueString = String.escape(value.description)
     }
   }
+  
+  /**
+   The escapedKey is the key, but with all characters that are not permitted in 
+     a URL query replaced with percent encoding.
+  */
   private (set) public var escapedKey: String!
+  
+  /**
+   The escapedValueString is the value, but with all characters that are not permitted in
+     a URL query replaced with percent encoding.
+   */
   private (set) public var escapedValueString: String!
   
   // MARK: - Initialization
+  
+  /**
+   Initialier for HttpKeyPair
+   
+   - parameter key: The key of the HttpKeyPair.
+   - parameter value: The value of the HttpKeyPair.
+   */
   public init(key: String, value: AnyObject) {
     self.key = key
     self.value = value
@@ -58,6 +89,13 @@ public struct HttpKeyPair {
   }
   
   // MARK: - Standard functions
+  
+  /**
+   Returns a string that could be used to build a query from the HttpKeyPair.
+  
+   - returns: Percent encoded query string built from the escapedKey and escapedValueString,
+       i.e. "\\(self.escapedKey)=\\(self.escapedValueString)"
+   */
   public func toPartString() -> String {
     return "\(self.escapedKey)=\(self.escapedValueString)"
   }
