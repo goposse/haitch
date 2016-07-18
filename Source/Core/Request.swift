@@ -115,14 +115,32 @@ public class RequestParams {
   
 }
 
+/**
+ A Request object is an object that contains all the information required to make
+   an HTTP request, e.g. URL, method, headers, etc.
+ */
 public class Request {
   
+  /// The base URL of the request.
   private(set) public var url: String = String()
-  private(set) public var params: RequestParams!      // any query string params.
-                                                      // NB: these will NOT be passed to the request body
+  
+  /// Query parameters added to the URL.
+  ///
+  /// - note: These are not passed into the body, they are formatted and appended
+  ///   to the URL.
+  private(set) public var params: RequestParams!
+  
+  /// The method used for the request, e.g. GET, POST, etc.
+  /// - seealso: The Method struct within HttpClient.swift.
   private(set) public var method: String = String()
+  
+  /// The headers of the HTTP request.
   private(set) public var headers: [String : String] = [String : String]()
-  private(set) public var body: RequestBody?                 // the post body
+  
+  /// The body of the HTTP request.
+  private(set) public var body: RequestBody?
+  
+  /// The HTTP configuration of the request.
   private(set) public var httpClientConfiguration: HttpClientConfiguration?
   
   public init(builder: Request.Builder) {
