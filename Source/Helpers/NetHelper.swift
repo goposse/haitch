@@ -34,9 +34,17 @@
 
 import Foundation
 
+/**
+ Helper class for common network related tasks such as building query strings, 
+ URL paths, etc.
+ */
 public class NetHelper {
   
   // MARK: - Query string helpers
+  
+  /**
+   Builds a query string from a RequestParams object.
+  */
   public class func queryString(paramsDictionary params: RequestParams) -> String {
     return queryString(prefix: nil, params: params, multiValueSuffix: nil)
   }
