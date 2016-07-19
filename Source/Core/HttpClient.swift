@@ -172,6 +172,16 @@ public class HttpClient {
 
   
   // MARK: - Session / Client Configuration
+  
+  /**
+   Helper function that generates an NSURLSessionConfiguration from the HttpClientConfiguration
+     that is passed in.
+   
+   - parameter clientConfiguration: The HttpClientConfiguration to configure the returned
+       NSURLSessionConfiguration with.
+   
+   - returns: An NSURLSessionConfiguration configured with the passed in HttpClientConfiguration.
+   */
   private func sessionConfiguration(clientConfiguration clientConfiguration: HttpClientConfiguration) -> NSURLSessionConfiguration {
     let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
     sessionConfig.timeoutIntervalForRequest = clientConfiguration.timeoutInterval
@@ -182,10 +192,42 @@ public class HttpClient {
   
   
   // MARK: - Network Execution
+  
+  /**
+   Executes an HTTP request with the passed in request.  Runs asynchronously and results
+     are posted in the callback.  The default Response object is passed into the callback.
+   
+   - note: This is the same as calling execute(request: request, responseKind: nil, callback: callback)
+   
+   - parameter request: The Request object that is passed through the protocols.  It is also the request
+       executed, granted that a protcol has not modified it.
+   - parameter callback: The HttpClientCallback that will be called when the status of a 
+       response has been decided, either a successful response or an error.
+   
+   - returns: The NSURLSessionDataTask that was executef.  Could return nil if there was an error or
+       a protocol has halted the request.
+   */
   public func execute(request request: Request, callback: HttpClientCallback?) -> NSURLSessionDataTask? {
     return execute(request: request, responseKind: nil, callback: callback)
   }
   
+  /**
+   Executes an HTTP request with the passed in request.  Runs asynchronously and results
+   are posted in the callback.  The passed in responseKind parameter is what is passed into the
+   callback.
+   
+   - note: This is the same as calling execute(request: request, responseKind: nil, callback: callback)
+   
+   - parameter request: The Request object that is passed through the protocols.  It is also the request
+       executed, granted that a protcol has not modified it.
+   - parameter responseKind: The type of Response that will be initialized with the data and passed
+       into the callback.
+   - parameter callback: The HttpClientCallback that will be called when the status of a
+       response has been decided, either a successful response or an error.
+   
+   - returns: The NSURLSessionDataTask that was executef.  Could return nil if there was an error or
+       a protocol has halted the request.
+   */
   public func execute(request request: Request, responseKind: Response.Type?, callback: HttpClientCallback?) -> NSURLSessionDataTask? {
     
     var modRequest: Request = request
@@ -290,6 +332,20 @@ public class HttpClient {
   
   
   // MARK: - Error management
+  
+  /**
+   Helper function used to generate errors that are results of net errors, such as a bad status code.  
+     The domain is always "com.goposse.errors.net"
+   
+   - warning: Doesn't look like we pass the errorInfo into the userInfo, we just pass the userInfo back throguh.
+   
+   - parameter errorCode: The error code of the generated error.
+   - parameter statusCode: The status code of the response
+   - parameter message: The human readable message of the error.
+   - parameter userInfo: A dictionary of information that is put into the userInfo of the NSError.
+   
+   - returns: The NSError generated using the parameters that are passed in.
+   */
   private func standardNetError(errorCode: Int, statusCode: Int, message: String, userInfo: [NSObject : AnyObject]?) -> NSError {
     var errorInfo: [NSObject : AnyObject] = [NSObject : AnyObject]()
     if userInfo != nil {
