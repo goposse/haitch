@@ -36,6 +36,9 @@ import Foundation
 
 // MARK: - Http method definitions
 
+/**
+ A list of common HTTP methods that can be used when generating an HTTP request.
+ */
 public struct Method {
   public static let OPTIONS: String = "OPTIONS"
   public static let GET: String     = "GET"
@@ -49,22 +52,51 @@ public struct Method {
 }
 
 // MARK: - Callbacks
+
+/// A callback used by the HTTPClient after a request has been executed.
 public typealias HttpClientCallback = (response: Response?, error: NSError?) -> Void
 
-
+/**
+ A class that is used to execute HTTP requests.  Can optionally add HttpCallProtocols to it,
+   and configure it with an HttpClientConfiguration.
+ */
 public class HttpClient {
 
   // MARK: - Error configuration
+  
+  /**
+     Various keys used for creating and configuring errors.
+   */
   public struct ErrorConfig {
+    /// The domain of the error codes generated from the HttpClient
     public static let Domain: String = "com.goposse.errors.net"
+    /// A key used when populating the userInfo of an NSError that is generated.
+    /// Corresponds to the eror code of the error.
     public static let InfoKeyErrorCode: String = "errorCode"
+    /// A key used when populating the userInfo of an NSError that is generated. 
+    /// Corresponds to the status code of the response
     public static let InfoKeyStatusCode: String = "statusCode"
+    /// A key used when populating the userInfo of an NSError that is generated.
+    /// Corresponds to the error message of the error.
     public static let InfoKeyMessage: String = "message"
   }
   
   // MARK: - Error codes
+  
+  /**
+   Error codes that could be returned when executing an HttpClient request.
+   
+   - note: Other errors can also be returned from a request execution, such as a 
+       time out, etc., but those are usually received from Foundation.  These error codes
+       are just for local and other errors that are not be handled by Foundation.
+   */
   public struct ErrorCodes {
+    /// A response was received with a status code greater than 400.
+    /// - note: If the HttpClientConfiguration has treatStatusesAsErrors set to true, this error will
+    ///     be set in the execution callback for >400 HTTP statuses.
     public static let NonSuccessHTTPStatus: Int = 905531
+    
+    /// The URL to make a request was invalid.
     public static let BadUrl: Int = 905532
   }
 
