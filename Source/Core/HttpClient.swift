@@ -100,19 +100,27 @@ public class HttpClient {
     public static let BadUrl: Int = 905532
   }
 
+  /// The NSURLSession used to make requests.
   private(set) public var urlSession: NSURLSession!
   
-  // your http client configuration, or the default
+  /// The HTTP client configuration, uses the default if none is set.
   private(set) public var configuration: HttpClientConfiguration!
 
-  // Your NSURLSession configuration, or the system default
+  /// The NSURLSession configuration, configured with the configuration property.
+  /// If the configuration property is not set, the default HttpClientConfiguration is used.
   public var sessionConfiguration: NSURLSessionConfiguration!
   
-  // Any registered call protocols - see HttpCallProtocol.swift
+  /// An array of registered call protocols.  Protocols are ran in order from the lowest index and
+  /// upwards to the last index.
+  /// - seealso: HttpCallProtocol.swift
   private (set) public var callProtocols = [HttpCallProtocol]()
   
   
   // MARK: - Initialization
+  
+  /**
+   Intializes an HttpClient with a default cofiguration.
+   */
   public init() {
     let configuration: HttpClientConfiguration = HttpClientConfiguration()
     self.configuration = configuration
@@ -120,6 +128,11 @@ public class HttpClient {
     self.urlSession = NSURLSession(configuration: self.sessionConfiguration)
   }
   
+  /**
+   Intializes an HttpClient with the configuration that is passed in.
+   
+   - parameter configuration:  The HttpClientConfiguration to configure this HttpClient with.
+   */
   public init(configuration: HttpClientConfiguration) {
     self.configuration = configuration
     self.sessionConfiguration = self.sessionConfiguration(clientConfiguration: configuration)
@@ -128,14 +141,31 @@ public class HttpClient {
   
   
   // MARK: - Call Protocol Management
+  
+  /**
+   Appends an HttpCallProtocol to the end of the callProtocols property.
+   
+   - parameter callProtocol: The HttpCallProtocol to append to the callProtocols property.
+   */
   public func addCallProtocol(callProtocol: HttpCallProtocol) {
     callProtocols.append(callProtocol)
   }
   
+  /**
+   Removes an HttpCallProtocol from the callProtocols property at the index specified.
+   
+   - parameter atIndex: The index of the HttpCallProtocol to remove from the callProtocols property.
+   */
   public func removeCallProtocol(atIndex index: Int) {
     callProtocols.removeAtIndex(index)
   }
 
+  /**
+   Inserts a protocol to the callProtocols property at the index specified.
+   
+   - parameter atIndex: The index at wich to insert the HttpCallProtocol to the callProtocols property.
+   - parameter callProtocol: The HttpCallProtocol to insert.
+   */
   public func insertCallProtocol(atIndex index: Int, callProtocol: HttpCallProtocol) {
     callProtocols.insert(callProtocol, atIndex: index)
   }
