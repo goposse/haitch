@@ -117,7 +117,8 @@ public class RequestParams {
 
 /**
  A Request object is an object that contains all the information required to make
-   an HTTP request, e.g. URL, method, headers, etc.
+   an HTTP request, e.g. URL, method, headers, etc.  Follows a builder pattern to
+   easily create a Request.
  */
 public class Request {
   
