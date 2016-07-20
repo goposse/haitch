@@ -43,13 +43,7 @@ import Foundation
 public class JsonRequestBody : RequestBody {
   
   /// The json object to be used when building the request body.  Default value is nil.
-  /// - warning: generateData() is called when the json value is set, but I don't think
-  ///     that will result in anything happening.  I assume it's a bug or it can be taken out.
-  public var json: AnyObject? = nil {
-    didSet {
-      generateData()
-    }
-  }
+  public var json: AnyObject? = nil
   
   /**
    Default initializer for the JsonRequestBody.  Sets the contentType property to 

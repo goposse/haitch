@@ -354,8 +354,6 @@ public class HttpClient {
    Helper function used to generate errors that are results of net errors, such as a bad status code.  
      The domain is always "com.goposse.errors.net"
    
-   - warning: Doesn't look like we pass the errorInfo into the userInfo, we just pass the userInfo back throguh.
-   
    - parameter errorCode: The error code of the generated error.
    - parameter statusCode: The status code of the response
    - parameter message: The human readable message of the error.
@@ -364,17 +362,17 @@ public class HttpClient {
    - returns: The NSError generated using the parameters that are passed in.
    */
   private func standardNetError(errorCode: Int, statusCode: Int, message: String, userInfo: [NSObject : AnyObject]?) -> NSError {
-    var errorInfo: [NSObject : AnyObject] = [NSObject : AnyObject]()
-    if userInfo != nil {
-      errorInfo = userInfo!
+    var errorInfo = userInfo
+    if errorInfo == nil {
+      errorInfo = [NSObject : AnyObject]()
     }
     
     // append the error information to the error object
-    errorInfo[HttpClient.ErrorConfig.InfoKeyMessage] = message
-    errorInfo[HttpClient.ErrorConfig.InfoKeyStatusCode] = statusCode
-    errorInfo[HttpClient.ErrorConfig.InfoKeyErrorCode] = errorCode
+    errorInfo![HttpClient.ErrorConfig.InfoKeyMessage] = message
+    errorInfo![HttpClient.ErrorConfig.InfoKeyStatusCode] = statusCode
+    errorInfo![HttpClient.ErrorConfig.InfoKeyErrorCode] = errorCode
     
-    return NSError(domain: HttpClient.ErrorConfig.Domain, code: errorCode, userInfo: userInfo)
+    return NSError(domain: HttpClient.ErrorConfig.Domain, code: errorCode, userInfo: errorInfo)
   }
   
   

@@ -82,12 +82,18 @@ public struct HttpKeyPair {
   // MARK: - Standard functions
   /**
    Returns a string that could be used to build a query from the HttpKeyPair.
+   
+   - parameter keyPrefix: Prefix for the key pair key value.
+   - parameter keySuffix: Suffix for the key pair key value.
   
-   - returns: Percent encoded query string built from the escapedKey and escapedValueString,
-       i.e. "\\(self.escapedKey)=\\(self.escapedValueString)"
+   - returns: Percent encoded query string part with format *({keyPrefix}[{key}]||{key}){keySuffix}={value}*
    */
-  public func toPartString() -> String {
-    return "\(self.escapedKey)=\(self.escapedValueString)"
+  public func toPartString(keyPrefix keyPrefix: String = "", keySuffix: String = "") -> String {
+    var key = self.escapedKey
+    if keyPrefix != "" {
+      key = "\(keyPrefix)[\(key)]"
+    }
+    return "\(key)\(keySuffix)=\(self.escapedValueString)"
   }
   
 }

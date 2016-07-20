@@ -194,7 +194,7 @@ public class RequestBody {
    */
   internal func generateData() -> NSMutableData {
     var data: NSMutableData = NSMutableData()
-    let queryString: String = NetHelper.queryString(paramsDictionary: self.bodyValuesToParams(self.values))
+    let queryString: String = NetHelper.queryString(params: self.bodyValuesToParams(self.values))
     if let stringData = queryString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
       data = stringData.mutableCopy() as! NSMutableData
     }

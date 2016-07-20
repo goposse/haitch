@@ -45,6 +45,9 @@ public class RequestParams {
   /// An array of HttpKeyPair values.
   private var params: [HttpKeyPair]!
   
+  /// count ocurrences of a HttpKeyPair key value in the params array
+  private var keyCounts: [String : Int] = [:]
+  
   /**
    Default initializer for RequestParams.  Defaults the params property to an empty array.
    */
@@ -62,7 +65,7 @@ public class RequestParams {
   public init(dictionary: [String : String]) {
     self.params = []
     for (key, val) in dictionary {
-      self.params.append(HttpKeyPair(key: key, value: val))
+      append(name: key, value: val)
     }
   }
   
@@ -102,6 +105,9 @@ public class RequestParams {
    */
   public func append(name key: String, value: String) {
     self.params.append(HttpKeyPair(key: key, value: value))
+    var count = self.keyCounts[key] ?? 0
+    count += 1
+    self.keyCounts[key] = count
   }
   
   /**
@@ -111,6 +117,16 @@ public class RequestParams {
    */
   public func allParams() -> [HttpKeyPair] {
     return self.params
+  }
+  
+  /**
+   Returns true if the key is registered more than once in the params array
+ 
+   - returns: true if the key is registered more than once in the params array, otherwise false
+   */
+  public func isKeyMultiValue(key key: String) -> Bool {
+    let count = self.keyCounts[key] ?? 0
+    return count > 1
   }
   
 }

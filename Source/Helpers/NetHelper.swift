@@ -43,97 +43,29 @@ public class NetHelper {
   // MARK: - Query string helpers
   
   /**
-   Builds a query string from a RequestParams object.
-   
-   - note: This is the same as calling the NetHelper class function 
-       queryString(prefix: nil, params: params, multiValueSuffix: nil)
-   
-   - parameter paramsDictionary: A RequestParams object that will ne used to generated
-       the query string.
-   
-   - returns: A query string built from the paramsDictionary parameter.
-  */
-  public class func queryString(paramsDictionary params: RequestParams) -> String {
-    return queryString(prefix: nil, params: params, multiValueSuffix: nil)
-  }
-
-  /**
    Build a query string from a RequestParams object.  For each HttpKeyPair in the object, 
      generates a part of the query and appends an ampersand.  The final ampersand is chopped off.
-   
-   - warning: The prefix parameter and multiValueSuffix parameter are not used.
    
    - parameter params: A RequestParams object that will ne used to generated
        the query string.
    
    - returns: A query string built from the params parameter.
    */
-  public class func queryString(prefix prefix: String?, params: RequestParams, multiValueSuffix: String?) -> String {
+  public class func queryString(keyPrefix keyPrefix: String = "", params: RequestParams, multiValueSuffix: String = "") -> String {
     var queryStringVal: String = ""
     let parts: [HttpKeyPair] = params.allParams()
     for keyPair: HttpKeyPair in parts {
-      queryStringVal += "\(keyPair.toPartString())&"
+      let isMultiVal = params.isKeyMultiValue(key: keyPair.key)
+      var suffix = ""
+      if isMultiVal {
+        suffix = multiValueSuffix ?? ""
+      }
+      queryStringVal += "\(keyPair.toPartString(keyPrefix: keyPrefix, keySuffix: suffix))&"
     }
     if queryStringVal.characters.count > 0 {
       queryStringVal = queryStringVal.chop()    // remove trailing '&' before returning
     }
     return queryStringVal
-  }
-  
-  
-  /**
-    Takes an array or a dictionary of query string parameter key / values and converts it to an
-    array of properly formatted query string parts. The strings in the returned array 
-    will be one of *two* formats:
-  
-    1. If prefix IS NOT nil, "keyPrefix[key]=url encoded value"
-    2. If prefix IS nil, "key=url encoded value"
-  
-    - parameter keyPrefix:  If passing an array or set, this will be used as the key, if passing a dictionary the
-        prefix will be used in the form of prefix[key] (optional).
-    - parameter params:  The parameter values that will be used to construct the query string parts.
-    - parameter multiValueSuffix:  The multi-value suffix to apply to array/multi-value values.
-  
-    - returns: An array of HttpKeyPair.
-  */
-  public class func queryStringPartsArray(keyPrefix keyPrefix: String?, value: AnyObject, multiValueSuffix: String? = "[]") -> [HttpKeyPair] {
-
-    var partsArray: Array<HttpKeyPair> = Array<HttpKeyPair>()       // the query string parts
-    
-    if let paramsDict = value as? Dictionary<String, AnyObject> {
-    
-      // it is important that we sort the keys each time to preserve some sort consistency in
-      // the reproducability of the code
-      let sortedKeys = Array(paramsDict.keys).sort(<)
-      for paramKey in sortedKeys {
-        if let nestedValue: AnyObject = paramsDict[paramKey] {
-          var key = paramKey
-          if (keyPrefix != nil) {
-            key = "\(keyPrefix!)[\(key)]"
-          }
-          partsArray.appendContentsOf(queryStringPartsArray(keyPrefix: key, value: nestedValue, multiValueSuffix: nil))
-        }
-      }
-    
-    } else if let paramsArray = value as? Array<AnyObject> {
-      
-      if keyPrefix != nil {
-        let key: String = "\(keyPrefix)\(multiValueSuffix)"
-        for nestedValue in paramsArray {
-          partsArray.appendContentsOf(queryStringPartsArray(keyPrefix: key, value: nestedValue, multiValueSuffix: nil))
-        }
-      }
-      
-    } else {
-
-      // at this point of execution the keyPrefix will be the actual key so we should just pass it through
-      // we will still check to make sure it isn't nil incase someone does something stupid
-      if let key: String = keyPrefix {
-        partsArray.append(HttpKeyPair(key: key, value: value))
-      }
-    }
-    
-    return partsArray
   }
   
   
@@ -152,7 +84,7 @@ public class NetHelper {
   public class func pathWithParams(path: String, params: RequestParams?) -> String {
     var outPath = path
     if let qsParams: RequestParams = params {
-      let queryString: String = self.queryString(paramsDictionary: qsParams)
+      let queryString: String = self.queryString(params: qsParams)
       outPath = "\(path)?\(queryString)"
     }
     return outPath
@@ -160,24 +92,6 @@ public class NetHelper {
   
   /**
    Creates a URL with parameters by taking a given URL and attaching url encodes parameters to it.
-   
-   - note: This is the same as calling urlWithParams(urlString, paramPrefix: nil, params: params)
-   
-   - parameter urlString: The URL string to append the params parameter to.
-   - parameter params: The RequestParams that will be used to generate a query string
-       that will be appened to the URL.
-   
-   - returns: The urlString parameter appended with the query string generated from the params
-       parameter.
-   */
-  public class func urlWithParams(urlString: String, params: RequestParams?) -> String {
-    return urlWithParams(urlString, paramPrefix: nil, params: params)
-  }
-  
-  /**
-   Creates a URL with parameters by taking a given URL and attaching url encodes parameters to it.
-   
-   - warning: The paramPrefix parameter will not be used, in association with the queryString(...) function.
    
    - parameter urlString: The URL string to append the params parameter to.
    - parameter paramPrefix: The String to prefix the parameters with.
@@ -187,13 +101,13 @@ public class NetHelper {
    - returns: The urlString parameter appended with the query string generated from the params
        parameter.
    */
-  public class func urlWithParams(urlString: String, paramPrefix: String?, params: RequestParams?) -> String {
+  public class func urlWithParams(urlString: String, paramPrefix: String = "", params: RequestParams?) -> String {
     var fullPath = urlString
     var inParams: RequestParams = RequestParams()
     if params != nil {
       inParams = params!
     }
-    let queryStringValue: String? = queryString(prefix: paramPrefix, params: inParams, multiValueSuffix: nil)
+    let queryStringValue: String? = queryString(keyPrefix: paramPrefix, params: inParams)
     if String.isNotEmpty(queryStringValue) {
       // Check if the path already contains a query delimiter, if so, use the ampersand instead
       var appendChar: String = "?"
