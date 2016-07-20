@@ -37,7 +37,19 @@
 		A32F60901CCADCFF007AB3AE /* NetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F751BFD6A530084FF49 /* NetHelper.swift */; };
 		A32F60911CCADD0F007AB3AE /* Haitch.h in Headers */ = {isa = PBXBuildFile; fileRef = A30C5F601BFD679F0084FF49 /* Haitch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA0822AA1C99B3DC00FBC7F2 /* BinaryRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0822A91C99B3DC00FBC7F2 /* BinaryRequestBody.swift */; };
+		CA8887FB1D400318005A8390 /* HaitchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8887FA1D400318005A8390 /* HaitchTests.swift */; };
+		CA8887FD1D400318005A8390 /* Haitch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3034B801BFD61F4003F8705 /* Haitch.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CA8887FE1D400318005A8390 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A3034B771BFD61F4003F8705 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A3034B7F1BFD61F4003F8705;
+			remoteInfo = "Haitch iOS";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		A3034B801BFD61F4003F8705 /* Haitch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Haitch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,6 +72,9 @@
 		A30C5F811BFD8E190084FF49 /* JsonRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonRequestBody.swift; sourceTree = "<group>"; };
 		A30C5F831BFD8E190084FF49 /* JsonResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonResponse.swift; sourceTree = "<group>"; };
 		CA0822A91C99B3DC00FBC7F2 /* BinaryRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryRequestBody.swift; sourceTree = "<group>"; };
+		CA8887F81D400317005A8390 /* HaitchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HaitchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA8887FA1D400318005A8390 /* HaitchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaitchTests.swift; sourceTree = "<group>"; };
+		CA8887FC1D400318005A8390 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +92,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CA8887F51D400317005A8390 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA8887FD1D400318005A8390 /* Haitch.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -84,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				A3034B981BFD6398003F8705 /* Source */,
+				CA8887F91D400318005A8390 /* HaitchTests */,
 				A3034B811BFD61F4003F8705 /* Products */,
 				A30C5F791BFD7AFE0084FF49 /* LICENSE */,
 				A30C5F7A1BFD7AFE0084FF49 /* README.md */,
@@ -95,6 +119,7 @@
 			children = (
 				A3034B801BFD61F4003F8705 /* Haitch.framework */,
 				A3034B901BFD6229003F8705 /* Haitch.framework */,
+				CA8887F81D400317005A8390 /* HaitchTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -190,6 +215,15 @@
 			path = responses;
 			sourceTree = "<group>";
 		};
+		CA8887F91D400318005A8390 /* HaitchTests */ = {
+			isa = PBXGroup;
+			children = (
+				CA8887FA1D400318005A8390 /* HaitchTests.swift */,
+				CA8887FC1D400318005A8390 /* Info.plist */,
+			);
+			path = HaitchTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -248,12 +282,31 @@
 			productReference = A3034B901BFD6229003F8705 /* Haitch.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		CA8887F71D400317005A8390 /* HaitchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CA8888021D400318005A8390 /* Build configuration list for PBXNativeTarget "HaitchTests" */;
+			buildPhases = (
+				CA8887F41D400317005A8390 /* Sources */,
+				CA8887F51D400317005A8390 /* Frameworks */,
+				CA8887F61D400317005A8390 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CA8887FF1D400318005A8390 /* PBXTargetDependency */,
+			);
+			name = HaitchTests;
+			productName = HaitchTests;
+			productReference = CA8887F81D400317005A8390 /* HaitchTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		A3034B771BFD61F4003F8705 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Posse Productions LLC";
 				TargetAttributes = {
@@ -262,6 +315,9 @@
 					};
 					A3034B8F1BFD6229003F8705 = {
 						CreatedOnToolsVersion = 7.1.1;
+					};
+					CA8887F71D400317005A8390 = {
+						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
 			};
@@ -279,6 +335,7 @@
 			targets = (
 				A3034B7F1BFD61F4003F8705 /* Haitch iOS */,
 				A3034B8F1BFD6229003F8705 /* Haitch OSX */,
+				CA8887F71D400317005A8390 /* HaitchTests */,
 			);
 		};
 /* End PBXProject section */
@@ -292,6 +349,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		A3034B8E1BFD6229003F8705 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA8887F61D400317005A8390 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -343,7 +407,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CA8887F41D400317005A8390 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA8887FB1D400318005A8390 /* HaitchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CA8887FF1D400318005A8390 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A3034B7F1BFD61F4003F8705 /* Haitch iOS */;
+			targetProxy = CA8887FE1D400318005A8390 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		A3034B861BFD61F4003F8705 /* Debug */ = {
@@ -518,6 +598,30 @@
 			};
 			name = Release;
 		};
+		CA8888001D400318005A8390 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = HaitchTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.posse.HaitchTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CA8888011D400318005A8390 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = HaitchTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.posse.HaitchTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -547,6 +651,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		CA8888021D400318005A8390 /* Build configuration list for PBXNativeTarget "HaitchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA8888001D400318005A8390 /* Debug */,
+				CA8888011D400318005A8390 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

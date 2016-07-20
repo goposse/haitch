@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CA8887F71D400317005A8390"
+               BuildableName = "HaitchTests.xctest"
+               BlueprintName = "HaitchTests"
+               ReferencedContainer = "container:Haitch.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A3034B7F1BFD61F4003F8705"
+            BuildableName = "Haitch.framework"
+            BlueprintName = "Haitch iOS"
+            ReferencedContainer = "container:Haitch.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
