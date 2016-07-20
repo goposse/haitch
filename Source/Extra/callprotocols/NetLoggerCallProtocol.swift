@@ -56,9 +56,12 @@ public class NetLoggerCallProtocol : HttpCallProtocol {
      and the string returned from fullUrlString() of the request.  
    
    - returns: A tuple with the following information:
-       - gotoNext: Bool - Always returns true.
-       - request: Request - Always returns the request that was passed in.
-       - response: Response? - Always returns nil
+   
+       gotoNext: Bool - Always returns true.
+   
+       request: Request - Always returns the request that was passed in.
+   
+       response: Response? - Always returns nil.
    */
   public func handleRequest(request: Request) -> (gotoNext: Bool, request: Request, response: Response?) {
     let date: NSDate = NSDate()
@@ -73,8 +76,10 @@ public class NetLoggerCallProtocol : HttpCallProtocol {
      implemented.  Does not modify or do anything.
    
    - returns: A tuple with the following information:
-     - gotoNext: Bool - Always returns true.
-     - response: Response - Always returns the response that was passed in.
+   
+     gotoNext: Bool - Always returns true.
+   
+     response: Response - Always returns the response that was passed in.
    */
   public func handleResponse(response: Response) -> (gotoNext: Bool, response: Response) {
     return (gotoNext: true, response: response)

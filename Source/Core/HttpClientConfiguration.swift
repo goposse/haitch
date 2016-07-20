@@ -61,12 +61,17 @@ public struct HttpClientConfiguration {
   
   /**
    Default initializer for the HttpClientConfiguration.  Listed below are the default values 
-     for each property.
-     - timeoutInterval: 60.0
-     - multiValueSuffix: "[]"
-     - shouldSetCookies: false
-     - shouldHaltOnProtocolSkip: false
-     - treatStatusesAsErrors: false
+    for each property.
+   
+   - timeoutInterval: 60.0
+   
+   - multiValueSuffix: "[]"
+   
+   - shouldSetCookies: false
+   
+   - shouldHaltOnProtocolSkip: false
+   
+   - treatStatusesAsErrors: false
    */
   public init() {
   }

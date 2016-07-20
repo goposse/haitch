@@ -47,14 +47,17 @@ public protocol HttpCallProtocol {
    - parameter request: The request that is about to be executed.
    
    - returns: Should return a tuple populated with the following information:
-     - gotoNext: Bool - Depending on the HTTPClientConfiguration, this could have different effects.
+   
+       gotoNext: Bool - Depending on the HTTPClientConfiguration, this could have different effects.
          If gotoNext is false, all subsequent protocols are NOT run.  If gotoNext is false AND the configuration
          has shouldHaltOnProtocolSkip set to true, it also will also halt the request, and use the 
          response value of the tuple on the response callback.  If gotoNext is true, the next protocol
          is run and business continues as usual.
-     - request: Request - The request that will be used in all subsequent HttpCallProtocols and as the HTTP request
+   
+       request: Request - The request that will be used in all subsequent HttpCallProtocols and as the HTTP request
          if it is not overwritten by another protocol.
-     - response: Response? - See the description of gotoNext, but this can be used for an early
+   
+       response: Response? - See the description of gotoNext, but this can be used for an early
          response without a network call if desired.
    */
   func handleRequest(request: Request) -> (gotoNext: Bool, request: Request, response: Response?)
@@ -65,9 +68,11 @@ public protocol HttpCallProtocol {
    - parameter response: The response that was received.
    
    - returns: Should return a tuple populated with the following information:
-       - gotoNext: Bool - If false, all subsequent protocols are NOT run.  If true, the next
+   
+       gotoNext: Bool - If false, all subsequent protocols are NOT run.  If true, the next
            the next protocol is run.
-       - response: Response - The response that will be used by all subsequent protocols,
+   
+       response: Response - The response that will be used by all subsequent protocols,
            and if it is not overwritten by a subsequent protocol, the response that will be 
            used in the callback.
    */

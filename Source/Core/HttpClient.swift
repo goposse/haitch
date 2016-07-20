@@ -40,14 +40,31 @@ import Foundation
  A list of common HTTP methods that can be used when generating an HTTP request.
  */
 public struct Method {
+  /// The OPTIONS HTTP method.
   public static let OPTIONS: String = "OPTIONS"
+  
+  /// The GET HTTP method.
   public static let GET: String     = "GET"
+  
+  /// The HEAD HTTP method.
   public static let HEAD: String    = "HEAD"
+  
+  /// The POST HTTP method.
   public static let POST: String    = "POST"
+  
+  /// The PUT HTTP method.
   public static let PUT: String     = "PUT"
+  
+  /// The PATCH HTTP method.
   public static let PATCH: String   = "PATCH"
+  
+  /// The DELETE HTTP method.
   public static let DELETE: String  = "DELETE"
+  
+  /// The TRACE HTTP method.
   public static let TRACE: String   = "TRACE"
+  
+  /// The CONNECT HTTP method.
   public static let CONNECT: String = "CONNECT"
 }
 
