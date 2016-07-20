@@ -7,21 +7,66 @@
 //
 
 import XCTest
+import Haitch
 
 class HaitchTests: XCTestCase {
+  
+  static var oneOrMoreRequestParamTestsHaveFailed: Bool = false
+  
+  override func setUp() {
+    super.setUp()
+    // Put setup code here. This method is called before the invocation of each test method in the class.
+  }
+  
+  override func tearDown() {
+    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    super.tearDown()
+  }
+  
+  // MARK: - HttpKeyPair tests
+  func testEscapedPropertiesSetOnInitialization() {
+    let httpKeyPair = HttpKeyPair(key: "some weird key", value: "some VALUE!!! making sure it will need to be percent encoded.")
+    XCTAssertEqual(httpKeyPair.escapedKey, String.escape("some weird key"))
+    XCTAssertEqual(httpKeyPair.escapedValueString, String.escape("some VALUE!!! making sure it will need to be percent encoded."))
+  }
+  
+  func testEscapedPropertiesSetWhenPublicPropertiesSet() {
+    var httpKeyPair = HttpKeyPair(key: "some weird key", value: "some VALUE!!! making sure it will need to be percent encoded.")
+    httpKeyPair.key = "changing the key up."
+    XCTAssertEqual(httpKeyPair.escapedKey, String.escape("some weird key"))
+  }
+  
+  // MARK: - RequestParams tests
+  func testRequestParams() {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+  }
+  
+  // MARK: - NetHelper tests
+  func testJoinedPathWithBuiltPathWithTrailingForwardSlash() {
+    let pathToJoin = "/documents/files/data/"
+    let joinedPath = NetHelper.joinedPath(path: pathToJoin, parts: "info", "user")
+    XCTAssertEqual("/documents/files/data/info/user", joinedPath, "Result of joinedPath function did not match expected results.")
+  }
+  
+  func testJoinedPathWithBuiltPathWithOutTrailingForwardSlash() {
+    let pathToJoin = "/documents/files/data"
+    let joinedPath = NetHelper.joinedPath(path: pathToJoin, parts: "info", "user")
+    XCTAssertEqual("/documents/files/data/info/user", joinedPath, "Result of joinedPath function did not match expected results.")
+  }
+  
+  func testJoinedPathWithEmptyPath() {
+    let pathToJoin = ""
+    let joinedPath = NetHelper.joinedPath(path: pathToJoin, parts: "info", "user")
+    XCTAssertEqual("/info/user", joinedPath, "Result of joinedPath function did not match expected results.")
+  }
+  
+  func testQueryStringWithNonMultiValRequestParamsAndNoPrefix() {
+    XCTAssertFalse(HaitchTests.oneOrMoreRequestParamTestsHaveFailed)
+    if HaitchTests.oneOrMoreRequestParamTestsHaveFailed {
+      XCTFail("This test relies on the fact that the RequestParam tests have all passed!")
+    } else {
+      
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+  }
 }

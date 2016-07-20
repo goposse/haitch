@@ -75,6 +75,9 @@ public struct HttpKeyPair {
   public init(key: String, value: AnyObject) {
     self.key = key
     self.value = value
+    
+    // These need to be set explicitly here.  didSet will not be called on variables 
+    // until a set occurrs AFTER initialization.
     self.escapedKey = String.escape(key)
     self.escapedValueString = String.escape(value.description)
   }
