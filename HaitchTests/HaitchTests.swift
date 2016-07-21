@@ -23,19 +23,6 @@ class HaitchTests: XCTestCase {
     super.tearDown()
   }
   
-  // MARK: - HttpKeyPair tests
-  func testEscapedPropertiesSetOnInitialization() {
-    let httpKeyPair = HttpKeyPair(key: "some weird key", value: "some VALUE!!! making sure it will need to be percent encoded.")
-    XCTAssertEqual(httpKeyPair.escapedKey, String.escape("some weird key"))
-    XCTAssertEqual(httpKeyPair.escapedValueString, String.escape("some VALUE!!! making sure it will need to be percent encoded."))
-  }
-  
-  func testEscapedPropertiesSetWhenPublicPropertiesSet() {
-    var httpKeyPair = HttpKeyPair(key: "some weird key", value: "some VALUE!!! making sure it will need to be percent encoded.")
-    httpKeyPair.key = "changing the key up."
-    XCTAssertEqual(httpKeyPair.escapedKey, String.escape("some weird key"))
-  }
-  
   // MARK: - RequestParams tests
   func testRequestParams() {
     

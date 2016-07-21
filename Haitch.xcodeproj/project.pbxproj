@@ -39,6 +39,8 @@
 		CA0822AA1C99B3DC00FBC7F2 /* BinaryRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0822A91C99B3DC00FBC7F2 /* BinaryRequestBody.swift */; };
 		CA8887FB1D400318005A8390 /* HaitchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8887FA1D400318005A8390 /* HaitchTests.swift */; };
 		CA8887FD1D400318005A8390 /* Haitch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3034B801BFD61F4003F8705 /* Haitch.framework */; };
+		CA8888041D402682005A8390 /* HttpKeyPairTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8888031D402682005A8390 /* HttpKeyPairTests.swift */; };
+		CA8888061D411CAE005A8390 /* StringExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8888051D411CAE005A8390 /* StringExtensionTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,8 @@
 		CA8887F81D400317005A8390 /* HaitchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HaitchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA8887FA1D400318005A8390 /* HaitchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaitchTests.swift; sourceTree = "<group>"; };
 		CA8887FC1D400318005A8390 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA8888031D402682005A8390 /* HttpKeyPairTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpKeyPairTests.swift; sourceTree = "<group>"; };
+		CA8888051D411CAE005A8390 /* StringExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensionTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +222,8 @@
 		CA8887F91D400318005A8390 /* HaitchTests */ = {
 			isa = PBXGroup;
 			children = (
+				CA8888051D411CAE005A8390 /* StringExtensionTests.swift */,
+				CA8888031D402682005A8390 /* HttpKeyPairTests.swift */,
 				CA8887FA1D400318005A8390 /* HaitchTests.swift */,
 				CA8887FC1D400318005A8390 /* Info.plist */,
 			);
@@ -412,6 +418,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA8887FB1D400318005A8390 /* HaitchTests.swift in Sources */,
+				CA8888041D402682005A8390 /* HttpKeyPairTests.swift in Sources */,
+				CA8888061D411CAE005A8390 /* StringExtensionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

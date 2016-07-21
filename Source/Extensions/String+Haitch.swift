@@ -42,11 +42,16 @@ public extension String {
   /**
    Removes the last character from a string.
    
-   - returns: The original string with the last character removed
+   - returns: The original string with the last character removed.  If there are no characters
+       to remove, this string is returned, unmodified.
    */
   internal func chop() -> String {
-    let index: String.Index = self.endIndex.advancedBy(-1)
-    return self.substringToIndex(index)
+    if self.characters.count > 0 {
+      let index: String.Index = self.endIndex.advancedBy(-1)
+      return self.substringToIndex(index)
+    } else {
+      return self
+    }
   }
 
   /**
