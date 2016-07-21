@@ -58,33 +58,22 @@ class HttpKeyPairTests: XCTestCase {
   
   func testToPartStringWithoutPrefixOrSuffix() {
     let partString = verboseHttpKeyPair.toPartString()
-    
-    XCTAssertEqual(
-      "\(percentEncodedVerboseKey)=\(percentEncodedVerboseValue)", partString,
-      "toPartString did not return expected value")
+    XCTAssertEqual("\(percentEncodedVerboseKey)=\(percentEncodedVerboseValue)", partString)
   }
   
   func testToPartStringWithPrefixAndNoSuffix() {
     let partString = verboseHttpKeyPair.toPartString(keyPrefix: "abc")
-    
-    XCTAssertEqual(
-      "abc[\(percentEncodedVerboseKey)]=\(percentEncodedVerboseValue)", partString,
-      "toPartString did not return expected value")
+    XCTAssertEqual("abc[\(percentEncodedVerboseKey)]=\(percentEncodedVerboseValue)", partString)
   }
   
   func testToPartStringWithSuffixAndNoPrefix() {
     let partString = verboseHttpKeyPair.toPartString(keySuffix: "123")
-    
-    XCTAssertEqual(
-      "\(percentEncodedVerboseKey)123=\(percentEncodedVerboseValue)", partString,
-      "toPartString did not return expected value")
+    XCTAssertEqual("\(percentEncodedVerboseKey)123=\(percentEncodedVerboseValue)", partString)
   }
   
   func testToPartStringWithPrefixAndSuffix() {
     let partString = verboseHttpKeyPair.toPartString(keyPrefix: "abc", keySuffix: "123")
-    XCTAssertEqual(
-      "abc[\(percentEncodedVerboseKey)]123=\(percentEncodedVerboseValue)", partString,
-      "toPartString did not return expected value")
+    XCTAssertEqual("abc[\(percentEncodedVerboseKey)]123=\(percentEncodedVerboseValue)", partString)
   }
   
 }

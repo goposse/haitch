@@ -45,6 +45,35 @@ class StringExtensionTests: XCTestCase {
     XCTAssertEqual("", choppedString)
   }
   
+  func testIsNotEmptyWithSingleCharacterString() {
+    let testString = "a"
+    XCTAssertTrue(String.isNotEmpty(testString))
+  }
+  
+  func testIsNotEmptyWithMultipleCharacterString() {
+    let testString = "abc123"
+    XCTAssertTrue(String.isNotEmpty(testString))
+  }
+  
+  func testIsNotEmptyWithEmptyString() {
+    let testString = ""
+    XCTAssertFalse(String.isNotEmpty(testString))
+  }
+  
+  func testIsNotEmptyWithNilString() {
+    let testString: String? = nil
+    XCTAssertFalse(String.isNotEmpty(testString))
+  }
+  
+  func testQueryParametersWithSingleParam() {
+    let vidLink: String = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    let queryParams: [HttpKeyPair] = vidLink.queryParameters()
+    XCTAssertTrue(queryParams.count == 1, "There should only be one key pair in here")
+    for param in queryParams {
+      XCTAssertEqual("v", param.key)
+      XCTAssertEqual("dQw4w9WgXcQ", param.value.description)
+    }
+  }
   
     
   
