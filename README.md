@@ -9,9 +9,9 @@ Haitch is an HTTP Client written in Swift for iOS and Mac OS X.
 
 [![CocoaPods](https://img.shields.io/cocoapods/v/Haitch.svg?style=flat-square)](#)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat-square)](https://github.com/Carthage/Carthage)
-[![Swift Version](https://img.shields.io/badge/Swift-2.2+-lightgrey.svg)](https://golang.org/)
+[![Swift Version](https://img.shields.io/badge/Swift-2.2+-lightgrey.svg?style=flat-square)](https://golang.org/)
 [![Platform](https://img.shields.io/cocoapods/p/Haitch.svg?style=flat-square)](#)
-[![Build Status](https://travis-ci.org/goposse/haitch.svg?branch=master)](https://travis-ci.org/goposse/haitch)
+[![Build Status](https://travis-ci.org/goposse/haitch.svg?branch=master&style=flat-square)](https://travis-ci.org/goposse/haitch)
 
 # Features
 
