@@ -80,8 +80,12 @@ public struct HttpKeyPair {
   /// a URL query replaced with percent encoding.
   private (set) public var escapedValueString: String!
   
-  
+  /// The escapedKeyPrefix is the keyPrefix, but with all characters that are not permitted in
+  /// a URL query replaced with percent encoding.
   private (set) public var escapedKeyPrefix: String!
+  
+  /// The escapedKeySuffix is the keySuffix, but with all characters that are not permitted in
+  /// a URL query replaced with percent encoding.
   private (set) public var escapedKeySuffix: String!
   
   // MARK: - Initialization
