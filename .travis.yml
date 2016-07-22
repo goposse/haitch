@@ -1,0 +1,8 @@
+language: objective-c
+xcode_project: Haitch.xcodeproj
+xcode_scheme: HaitchTests
+osx_image: xcode7.3
+
+script:
+#Make sure all tests pass
+- xctool test -project Haitch.xcodeproj -scheme HaitchTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO

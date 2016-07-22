@@ -34,17 +34,34 @@
 
 import Foundation
 
+/**
+ Extends the String class to add various HTTP related functionality and other 
+ functionality to simplify code within Haitch.
+ */
 public extension String {
-  
   /**
-   Remove the last character from a string
-   - returns: The original string with the last character removed
+   Removes the last character from a string.
+   
+   - returns: The original string with the last character removed.  If there are no characters
+       to remove, this string is returned, unmodified.
    */
   internal func chop() -> String {
-    let index: String.Index = self.endIndex.advancedBy(-1)
-    return self.substringToIndex(index)
+    if self.characters.count > 0 {
+      let index: String.Index = self.endIndex.advancedBy(-1)
+      return self.substringToIndex(index)
+    } else {
+      return self
+    }
   }
 
+  /**
+   Checks if the passed in string is empty or not
+   
+   - parameter string: The string to check for emptiness.
+   
+   - returns: True if the string passed in is not nil and it has a character
+      count that is greater than zero.  Otherwise, it will return false.
+  */
   internal static func isNotEmpty(string: String?) -> Bool {
     if string != nil {
       return ((string!).characters.count > 0)
@@ -53,13 +70,28 @@ public extension String {
     }
   }
 
+  /**
+   Given the passed string, returns it with percent encoded characters in place
+     of characters that are not allowed within a URL query.
+   
+   - note: This is the same as calling
+       string.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+   
+   - parameter string: The string to add percent encoding to.
+   
+   - returns: The passed in string with percent encoding in place of characters
+       that are not allowed within a URL query.
+   */
   public static func escape(string: String) -> String? {
     return string.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
   }
   
   /**
-   Retrieves any query string parameters from the string as a Dictionary of String keys and String values
-   - returns: A Dictionary of any found parameters and their values, otherwise, an empty Dictionary
+   If the instance of the String is formatted as a URL query, this function returns
+     any query parameters within the query as an array of HttpKeyPair objects.
+   
+   - returns: An array of HttpKeyPair objects for any found parameters and their 
+       values. If none are found, it returns an empty array.
    */
   public func queryParameters() -> [HttpKeyPair] {
     var params: [HttpKeyPair] = []
@@ -78,6 +110,14 @@ public extension String {
     return params
   }
   
+  /**
+   If the instance of the String is formatted as a URL query, this function returns
+     any query parameters within the query as a dictionary of String keys to String
+     values.
+   
+   - returns: A dictionary of String keys to String values for any found parameters
+       and their values.  If none are found, it returns an empty dictionary.
+   */
   public func queryParametersDictionary() -> [String : String] {
     var params: [String : String] = [:]
     for keyPair: HttpKeyPair in queryParameters() {
@@ -86,11 +126,29 @@ public extension String {
     return params
   }
   
-  
+  /**
+   Returns the escaped version of the String instance, meaning it returns a String
+     with percent encoded characters in place of characters that are not allowed 
+     within a URL query.
+   
+   - note: This is the same as calling String.escape(self)
+   
+   - returns: The instance of the String with percent encoding in place of characters
+     that are not allowed within a URL query.
+   */
   public func escapedString() -> String? {
     return String.escape(self)
   }
 
+  /**
+   Returns the unescaped version of the String instance, meaning it returns a String
+     with all percent encoded parts replaced with the matching UTF-8 characters.
+   
+   - note: This is the same as calling self.stringByRemovingPercentEncoding
+   
+   - returns: The instance of the String with all percent encoding replaced by
+     the matching UTF-8 characters.
+   */
   public func unescapedString() -> String? {
     return self.stringByRemovingPercentEncoding
   }

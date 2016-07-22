@@ -34,14 +34,32 @@
 
 import Foundation
 
+/**
+ Base response class for a response received from an an HTTP request.
+ */
 public class Response {
   
+  /// The request that was sent that resulted in this response.
   private (set) public var request: Request
+  
+  /// The data block of the response.
   private (set) public var data: NSData? = nil
+  
+  /// The header values of the response.
   private (set) public var headers: [NSObject : AnyObject]? = nil
+  
+  /// The HTTP status code of the response
   private (set) public var statusCode: Int = 0
+  
+  /// If there was an error while creatuing this Response object, it is set.
   private (set) public var error: NSError? = nil
   
+  /**
+   Initializes a Response with another Response.  All values from the passed in Response
+     are set as the values in this Response.
+   
+   - parameter response: The response to initialize with.
+   */
   required public init(response: Response) {
     self.request = response.request
     self.data = response.data
@@ -50,6 +68,15 @@ public class Response {
     self.error = response.error
   }
   
+  /**
+   Initializer for the Response class.
+   
+   - parameter request: The request that resulted in this Response being created.
+   - parameter data: The data block of the HTTP response.
+   - parameter headers:  The headers of the HTTP response.
+   - parameter statusCode: The status code of the HTTP response.
+   - parameter error: Optional error value if an error has occured.
+   */
   public init(request: Request, data: NSData?, headers: [NSObject : AnyObject]?, statusCode: Int, error: NSError?) {
     self.request = request
     self.data = data

@@ -34,14 +34,21 @@
 
 import Foundation
 
+/**
+ Overrides the RequestBody class to build a RequestBody with JSON values.
+ 
+ - important: It is critically important to call build() on your JsonRequestBody before
+     using it in an Http Request. Failing to do so will almost always result in a crash.
+ */
 public class JsonRequestBody : RequestBody {
   
-  public var json: AnyObject? = nil {
-    didSet {
-      generateData()
-    }
-  }
+  /// The json object to be used when building the request body.  Default value is nil.
+  public var json: AnyObject? = nil
   
+  /**
+   Default initializer for the JsonRequestBody.  Sets the contentType property to 
+     "application/json".
+   */
   public override init() {
     super.init()
     contentType = "application/json"
@@ -49,6 +56,14 @@ public class JsonRequestBody : RequestBody {
   
   
   // MARK: - Request body data generation override
+  
+  /**
+   Override of the generateData function.  Serializes the json property and creates
+     an NSMutableData object from it, which is returned.
+   
+   - returns: The json property converted into an NSMutableData object.  If the json property is
+       nil, it will just return NSMutableData().
+   */
   public override func generateData() -> NSMutableData {
     var jsonData: NSMutableData = NSMutableData()
     if self.json != nil {

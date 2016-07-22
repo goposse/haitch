@@ -34,20 +34,49 @@
 
 import Foundation
 
+/**
+ A Response class that generates a JSON object from the data property of the Response.
+ */
 public class JsonResponse: Response {
 
+  /// The JSON object that is generated from the data property.
   private (set) public var json: AnyObject?
+  
+  /// An error property that is set if there is an error while attempting to set the 
+  /// json property.
   private (set) public var jsonError: AnyObject?
   
+  /**
+   Initializes a JsonResponse with a Response.  All values from the passed in Response
+   are set as the values in this JsonResponse.
+   
+   - parameter response: The response to initialize with.
+   */
   public convenience required init(response: Response) {
     self.init(request: response.request, data: response.data, headers: response.headers, statusCode: response.statusCode, error: response.error)
   }
   
+  /**
+   Initializer for the JsonResponse class.
+   
+   - parameter request: The request that resulted in this JsonResponse being created.
+   - parameter data: The data block of the HTTP response.
+   - parameter headers:  The headers of the HTTP response.
+   - parameter statusCode: The status code of the HTTP response.
+   - parameter error: Optional error value if an error has occured.
+   */
   public override init(request: Request, data: NSData?, headers: [NSObject : AnyObject]?, statusCode: Int, error: NSError?) {
     super.init(request: request, data: data, headers: headers, statusCode: statusCode, error: error)
     self.populateFromResponseData(data)
   }
 
+  /**
+   Helper function that populates the json property from the data property of the class.
+   
+   - parameter data: The data that will be serialized and set in the json property.  If
+       there is an error serializing the JSON, then the jsonError property will be set and the
+       json property will be nil.
+   */
   private func populateFromResponseData(data: NSData?) {
     if data != nil {
       var jsonError: NSError? = nil
