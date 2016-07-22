@@ -56,6 +56,21 @@ public struct HttpKeyPair {
       self.escapedValueString = String.escape(value.description)
     }
   }
+  /// The prefix for the key when it is converted to a part String. Defaults to an empty String.
+  /// The escapedKeyPrefix property is set to the escaped version when this property is set.
+  public var keyPrefix: String = "" {
+    didSet {
+      self.escapedKeyPrefix = String.escape(keyPrefix)
+    }
+  }
+  
+  /// The suffix for the key when it is converted to a part String. Defaults to an empty String.
+  /// The escapedKeySuffix property is set to the escaped version when this property is set.
+  public var keySuffix: String = "" {
+    didSet {
+      self.escapedKeySuffix = String.escape(keySuffix)
+    }
+  }
   
   /// The escapedKey is the key, but with all characters that are not permitted in
   /// a URL query replaced with percent encoding.
@@ -65,6 +80,10 @@ public struct HttpKeyPair {
   /// a URL query replaced with percent encoding.
   private (set) public var escapedValueString: String!
   
+  
+  private (set) public var escapedKeyPrefix: String!
+  private (set) public var escapedKeySuffix: String!
+  
   // MARK: - Initialization
   /**
    Initialier for HttpKeyPair
@@ -72,7 +91,7 @@ public struct HttpKeyPair {
    - parameter key: The key of the HttpKeyPair.
    - parameter value: The value of the HttpKeyPair.
    */
-  public init(key: String, value: AnyObject) {
+  public init(key: String, value: AnyObject, keySuffix: String = "", keyPrefix: String = "") {
     self.key = key
     self.value = value
     
@@ -80,6 +99,8 @@ public struct HttpKeyPair {
     // until a set occurrs AFTER initialization.
     self.escapedKey = String.escape(key)
     self.escapedValueString = String.escape(value.description)
+    self.escapedKeyPrefix = String.escape(keyPrefix)
+    self.escapedKeySuffix = String.escape(keySuffix)
   }
   
   // MARK: - Standard functions

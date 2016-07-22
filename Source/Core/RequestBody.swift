@@ -140,9 +140,6 @@ public class RequestBody {
   /**
    Returns the body headers of this RequestBody.
    
-   - warning: I am not sure why this was written or what it does.  All it does is
-       return [:], i.e. an empty dictionary.
-   
    - returns: The body headers of this RequestBody, always returns an empty dictionary.
    */
   public func bodyHeaders() -> [String : String] {
