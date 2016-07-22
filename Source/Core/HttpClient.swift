@@ -215,12 +215,11 @@ public class HttpClient {
    are posted in the callback.  The passed in responseKind parameter is what is passed into the
    callback.
    
-   - note: This is the same as calling execute(request: request, responseKind: nil, callback: callback)
-   
    - parameter request: The Request object that is passed through the protocols.  It is also the request
        executed, granted that a protcol has not modified it.
    - parameter responseKind: The type of Response that will be initialized with the data and passed
-       into the callback.
+       into the callback.  Defaults to nil if not passed in, which will result in a base Response
+       object passed into the callback.
    - parameter callback: The HttpClientCallback that will be called when the status of a
        response has been decided, either a successful response or an error.
    

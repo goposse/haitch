@@ -174,29 +174,16 @@ public class MultipartRequestBody : RequestBody {
     super.init()
     self.boundary = "Boundary+\(arc4random())\(arc4random())"
   }
-
-  /**
-   Adds a Part object to the values property.  The Part object is created with the given data.
-   
-   - note: This is the same as calling 
-       addFilePart(fileData: fileData, name: name, fileName: "form_file", mimeType: nil)
-   
-   - parameter fileData: The data to create the Part object with.
-   - parameter name: The key of the Part, which is a BodyValue, that will be created.
-   */
-  public func addFilePart(fileData: NSData, name: String) {
-    self.values.append(Part(name: name, data: fileData, fileName: "form_file", mimeType: nil))
-  }
   
   /**
    Adds a Part object to the values property.  The Part object is created with the given data.
    
    - parameter fileData: The data to create the Part object with.
    - parameter name: The key of the Part, which is a BodyValue, that will be created.
-   - parameter fileName: The fileName of the Part object that will be created
-   - parameter mimeType: The mimeType of the Part object that will be created.
+   - parameter fileName: The fileName of the Part object that will be created. Defaults to "form_file".
+   - parameter mimeType: The mimeType of the Part object that will be created.  Defaults to nil
    */
-  public func addFilePart(fileData: NSData, name: String, fileName: String, mimeType: String) {
+  public func addFilePart(fileData: NSData, name: String, fileName: String = "form_file", mimeType: String? = nil) {
     self.values.append(Part(name: name, data: fileData, fileName: fileName, mimeType: mimeType))
   }
   
