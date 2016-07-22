@@ -212,24 +212,6 @@ public class HttpClient {
   
   /**
    Executes an HTTP request with the passed in request.  Runs asynchronously and results
-     are posted in the callback.  The default Response object is passed into the callback.
-   
-   - note: This is the same as calling execute(request: request, responseKind: nil, callback: callback)
-   
-   - parameter request: The Request object that is passed through the protocols.  It is also the request
-       executed, granted that a protcol has not modified it.
-   - parameter callback: The HttpClientCallback that will be called when the status of a 
-       response has been decided, either a successful response or an error.
-   
-   - returns: The NSURLSessionDataTask that was executef.  Could return nil if there was an error or
-       a protocol has halted the request.
-   */
-  public func execute(request request: Request, callback: HttpClientCallback?) -> NSURLSessionDataTask? {
-    return execute(request: request, responseKind: nil, callback: callback)
-  }
-  
-  /**
-   Executes an HTTP request with the passed in request.  Runs asynchronously and results
    are posted in the callback.  The passed in responseKind parameter is what is passed into the
    callback.
    
@@ -245,7 +227,7 @@ public class HttpClient {
    - returns: The NSURLSessionDataTask that was executef.  Could return nil if there was an error or
        a protocol has halted the request.
    */
-  public func execute(request request: Request, responseKind: Response.Type?, callback: HttpClientCallback?) -> NSURLSessionDataTask? {
+  public func execute(request request: Request, responseKind: Response.Type? = nil, callback: HttpClientCallback?) -> NSURLSessionDataTask? {
     
     var modRequest: Request = request
     var response: Response? = nil
