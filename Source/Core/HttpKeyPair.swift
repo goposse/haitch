@@ -111,8 +111,6 @@ public struct HttpKeyPair {
   /**
    Returns a string that could be used to build a query from the HttpKeyPair.
    
-   - warning: Should prefixes and suffixes be percent encoded?
-   
    - parameter keyPrefix: Prefix for the key pair key value.
    - parameter keySuffix: Suffix for the key pair key value.
   
