@@ -103,4 +103,13 @@ class StringExtensionTests: XCTestCase {
     }
   }
   
+  func testStaticStringEscapeFunction() {
+    let testString = "💰😎👍👹"
+    guard let escapedString: String = testString.escapedString(), let unescapedEscapedString: String = escapedString.unescapedString() else {
+      XCTFail("These strings should not be nil")
+      return
+    }
+    XCTAssertEqual(testString, unescapedEscapedString)
+  }
+  
 }

@@ -37,6 +37,7 @@
 		A32F60901CCADCFF007AB3AE /* NetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C5F751BFD6A530084FF49 /* NetHelper.swift */; };
 		A32F60911CCADD0F007AB3AE /* Haitch.h in Headers */ = {isa = PBXBuildFile; fileRef = A30C5F601BFD679F0084FF49 /* Haitch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA0822AA1C99B3DC00FBC7F2 /* BinaryRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0822A91C99B3DC00FBC7F2 /* BinaryRequestBody.swift */; };
+		CA68ACE31D46B0EB00299231 /* HttpClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA68ACE21D46B0EB00299231 /* HttpClientTests.swift */; };
 		CA8887FB1D400318005A8390 /* HaitchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8887FA1D400318005A8390 /* HaitchTests.swift */; };
 		CA8887FD1D400318005A8390 /* Haitch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3034B801BFD61F4003F8705 /* Haitch.framework */; };
 		CA8888041D402682005A8390 /* HttpKeyPairTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8888031D402682005A8390 /* HttpKeyPairTests.swift */; };
@@ -74,6 +75,7 @@
 		A30C5F811BFD8E190084FF49 /* JsonRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonRequestBody.swift; sourceTree = "<group>"; };
 		A30C5F831BFD8E190084FF49 /* JsonResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonResponse.swift; sourceTree = "<group>"; };
 		CA0822A91C99B3DC00FBC7F2 /* BinaryRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryRequestBody.swift; sourceTree = "<group>"; };
+		CA68ACE21D46B0EB00299231 /* HttpClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpClientTests.swift; sourceTree = "<group>"; };
 		CA8887F81D400317005A8390 /* HaitchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HaitchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA8887FA1D400318005A8390 /* HaitchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaitchTests.swift; sourceTree = "<group>"; };
 		CA8887FC1D400318005A8390 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 		CA8887F91D400318005A8390 /* HaitchTests */ = {
 			isa = PBXGroup;
 			children = (
+				CA68ACE21D46B0EB00299231 /* HttpClientTests.swift */,
 				CA8888051D411CAE005A8390 /* StringExtensionTests.swift */,
 				CA8888031D402682005A8390 /* HttpKeyPairTests.swift */,
 				CA8887FA1D400318005A8390 /* HaitchTests.swift */,
@@ -419,6 +422,7 @@
 			files = (
 				CA8887FB1D400318005A8390 /* HaitchTests.swift in Sources */,
 				CA8888041D402682005A8390 /* HttpKeyPairTests.swift in Sources */,
+				CA68ACE31D46B0EB00299231 /* HttpClientTests.swift in Sources */,
 				CA8888061D411CAE005A8390 /* StringExtensionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
