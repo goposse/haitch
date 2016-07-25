@@ -15,6 +15,8 @@ class HttpKeyPairTests: XCTestCase {
   var verboseHttpKeyPair: HttpKeyPair!
   var verboseKey: String!
   var verboseValue: String!
+  var verboseSuffix: String!
+  var verbosePrefix: String!
   var percentEncodedVerboseKey: String!
   var percentEncodedVerboseValue: String!
   override func setUp() {
@@ -22,9 +24,13 @@ class HttpKeyPairTests: XCTestCase {
     // Put setup code here. This method is called before the invocation of each test method in the class.
     verboseKey = "some weird key"
     verboseValue = "some VALUE!!! making sure it will need to be percent encoded."
+    verbosePrefix = "space array"
+    verboseSuffix = "[]abc123"
+    
     percentEncodedVerboseKey = verboseKey.escapedString()!
     percentEncodedVerboseValue = verboseValue.escapedString()!
-    verboseHttpKeyPair = HttpKeyPair(key: verboseKey, value: verboseValue)
+    verboseHttpKeyPair = HttpKeyPair(
+      key: verboseKey, value: verboseValue, keySuffix: verboseSuffix, keyPrefix: verbosePrefix)
   }
   
   override func tearDown() {
@@ -40,11 +46,21 @@ class HttpKeyPairTests: XCTestCase {
     XCTAssertEqual(
       verboseHttpKeyPair.escapedValueString, String.escape(verboseValue),
       "escapedValue not set to expected value")
+    
+    XCTAssertEqual(
+      verboseHttpKeyPair.escapedKeySuffix, String.escape(verboseSuffix),
+      "escapedKeySuffix not set to expected value")
+    
+    XCTAssertEqual(
+      verboseHttpKeyPair.escapedKeyPrefix, String.escape(verbosePrefix),
+      "escapedKeyPrefix not set to expected value")
   }
   
   func testEscapedPropertiesSetWhenPublicPropertiesSet() {
     verboseHttpKeyPair.key = "changing the key up."
     verboseHttpKeyPair.value = "and changing the key to this value!"
+    verboseHttpKeyPair.keyPrefix = "new prefix"
+    verboseHttpKeyPair.keySuffix = "new suffix"
     
     XCTAssertEqual(
       verboseHttpKeyPair.escapedKey, String.escape("changing the key up."),
@@ -54,6 +70,16 @@ class HttpKeyPairTests: XCTestCase {
       verboseHttpKeyPair.escapedValueString,
       String.escape("and changing the key to this value!"),
       "escapedValue property not set after value property was set")
+    
+    XCTAssertEqual(
+      verboseHttpKeyPair.escapedKeyPrefix,
+      String.escape("new prefix"),
+      "escapedKeyPrefix property not set after keyPrefix property was set")
+    
+    XCTAssertEqual(
+      verboseHttpKeyPair.escapedKeySuffix,
+      String.escape("new suffix"),
+      "escapedKeySuffix property not set after keySuffix property was set")
   }
   
   func testToPartStringWithoutPrefixOrSuffix() {
