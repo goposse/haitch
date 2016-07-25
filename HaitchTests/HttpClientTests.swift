@@ -21,7 +21,4 @@ class HttpClientTests: XCTestCase {
     super.tearDown()
   }
   
-  func testGETRequest() {
-  }
-  
 }

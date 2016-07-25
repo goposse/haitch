@@ -42,6 +42,7 @@
 		CA8887FD1D400318005A8390 /* Haitch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3034B801BFD61F4003F8705 /* Haitch.framework */; };
 		CA8888041D402682005A8390 /* HttpKeyPairTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8888031D402682005A8390 /* HttpKeyPairTests.swift */; };
 		CA8888061D411CAE005A8390 /* StringExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8888051D411CAE005A8390 /* StringExtensionTests.swift */; };
+		CA918AFC1D46B9800017D294 /* RequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA918AFB1D46B9800017D294 /* RequestTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		CA8887FC1D400318005A8390 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA8888031D402682005A8390 /* HttpKeyPairTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpKeyPairTests.swift; sourceTree = "<group>"; };
 		CA8888051D411CAE005A8390 /* StringExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensionTests.swift; sourceTree = "<group>"; };
+		CA918AFB1D46B9800017D294 /* RequestTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +226,7 @@
 		CA8887F91D400318005A8390 /* HaitchTests */ = {
 			isa = PBXGroup;
 			children = (
+				CA918AFB1D46B9800017D294 /* RequestTests.swift */,
 				CA68ACE21D46B0EB00299231 /* HttpClientTests.swift */,
 				CA8888051D411CAE005A8390 /* StringExtensionTests.swift */,
 				CA8888031D402682005A8390 /* HttpKeyPairTests.swift */,
@@ -420,6 +423,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA918AFC1D46B9800017D294 /* RequestTests.swift in Sources */,
 				CA8887FB1D400318005A8390 /* HaitchTests.swift in Sources */,
 				CA8888041D402682005A8390 /* HttpKeyPairTests.swift in Sources */,
 				CA68ACE31D46B0EB00299231 /* HttpClientTests.swift in Sources */,
