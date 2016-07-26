@@ -35,17 +35,44 @@
 
 import Foundation
 
+/**
+ The configuration used by an HttpClient or by a Request while making an HTTP request.
+ */
 public struct HttpClientConfiguration {
-  public var timeoutInterval: NSTimeInterval = 60.0          // standard call timeout
-  public var multiValueSuffix: String = "[]"                 // if not "", any suffix to apply to multi-value form params
-  public var shouldSetCookies: Bool = false                  // should the client set / use cookies
   
-  public var shouldHaltOnProtocolSkip: Bool = false          // if true, return any request that the call protocols have returned
-                                                             // and halt the network call immediately, if false, dont run any other protocols
-                                                             // but continue execution of the call
+  /// The amount of time in seconds before a request is considered to be timed out.
+  /// Defaults to 60 seconds.
+  public var timeoutInterval: NSTimeInterval = 60.0
   
-  public var treatStatusesAsErrors: Bool = false            // Treat non-success statuses as errors (will be anything > 400)
+  /// Suffix used to denote multi-value form parameters.  Defaults to "[]"
+  public var multiValueSuffix: String = "[]"
   
+  /// Whether or not the client should set cookies.  Defaults to false.
+  /// - seealso: NSURLSessionConfiguration.HTTPShouldSetCookies
+  public var shouldSetCookies: Bool = false
+  
+  /// If true, return any request that the call protocols have returned
+  /// and halt the network call immediately, if false, dont run any other protocols
+  /// but continue execution of the call.  Defaults to false.
+  public var shouldHaltOnProtocolSkip: Bool = false
+  
+  /// Treat non-success statuses as errors (will be anything > 400).  Defaults to false.
+  public var treatStatusesAsErrors: Bool = false
+  
+  /**
+   Default initializer for the HttpClientConfiguration.  Listed below are the default values 
+    for each property.
+   
+   - timeoutInterval: 60.0
+   
+   - multiValueSuffix: "[]"
+   
+   - shouldSetCookies: false
+   
+   - shouldHaltOnProtocolSkip: false
+   
+   - treatStatusesAsErrors: false
+   */
   public init() {
   }
 }

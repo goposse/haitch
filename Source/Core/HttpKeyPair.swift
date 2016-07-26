@@ -34,32 +34,94 @@
 
 import Foundation
 
+/**
+ Wraps HTTP key pair values into a struct, and maintains the escaped versions
+   of the key and value.
+ - seealso: String+Haitch.swift
+ */
 public struct HttpKeyPair {
   
+  /// The key of the key value pair.  When set, the escapedKey is also set as
+  /// the escaped string of the key.
   public var key: String! {
     didSet {
       self.escapedKey = String.escape(key)
     }
   }
+  
+  /// The value of the key value pair.  When set, the escapedValueString key is also
+  /// set as the escaped string of the value.
   public var value: AnyObject! {
     didSet {
       self.escapedValueString = String.escape(value.description)
     }
   }
+  /// The prefix for the key when it is converted to a part String. Defaults to an empty String.
+  /// The escapedKeyPrefix property is set to the escaped version when this property is set.
+  public var keyPrefix: String = "" {
+    didSet {
+      self.escapedKeyPrefix = String.escape(keyPrefix)
+    }
+  }
+  
+  /// The suffix for the key when it is converted to a part String. Defaults to an empty String.
+  /// The escapedKeySuffix property is set to the escaped version when this property is set.
+  public var keySuffix: String = "" {
+    didSet {
+      self.escapedKeySuffix = String.escape(keySuffix)
+    }
+  }
+  
+  /// The escapedKey is the key, but with all characters that are not permitted in
+  /// a URL query replaced with percent encoding.
   private (set) public var escapedKey: String!
+  
+  /// The escapedValueString is the value, but with all characters that are not permitted in
+  /// a URL query replaced with percent encoding.
   private (set) public var escapedValueString: String!
   
+  /// The escapedKeyPrefix is the keyPrefix, but with all characters that are not permitted in
+  /// a URL query replaced with percent encoding.
+  private (set) public var escapedKeyPrefix: String!
+  
+  /// The escapedKeySuffix is the keySuffix, but with all characters that are not permitted in
+  /// a URL query replaced with percent encoding.
+  private (set) public var escapedKeySuffix: String!
+  
   // MARK: - Initialization
-  public init(key: String, value: AnyObject) {
+  /**
+   Initialier for HttpKeyPair
+   
+   - parameter key: The key of the HttpKeyPair.
+   - parameter value: The value of the HttpKeyPair.
+   */
+  public init(key: String, value: AnyObject, keySuffix: String = "", keyPrefix: String = "") {
     self.key = key
     self.value = value
+    
+    // These need to be set explicitly here.  didSet will not be called on variables 
+    // until a set occurrs AFTER initialization.
     self.escapedKey = String.escape(key)
     self.escapedValueString = String.escape(value.description)
+    self.escapedKeyPrefix = String.escape(keyPrefix)
+    self.escapedKeySuffix = String.escape(keySuffix)
   }
   
   // MARK: - Standard functions
-  public func toPartString() -> String {
-    return "\(self.escapedKey)=\(self.escapedValueString)"
+  /**
+   Returns a string that could be used to build a query from the HttpKeyPair.
+   
+   - parameter keyPrefix: Prefix for the key pair key value.
+   - parameter keySuffix: Suffix for the key pair key value.
+  
+   - returns: Percent encoded query string part with format *({keyPrefix}[{key}]||{key}){keySuffix}={value}*
+   */
+  public func toPartString(keyPrefix keyPrefix: String = "", keySuffix: String = "") -> String {
+    var key = self.escapedKey
+    if keyPrefix != "" {
+      key = "\(keyPrefix)[\(key)]"
+    }
+    return "\(key)\(keySuffix)=\(self.escapedValueString)"
   }
   
 }

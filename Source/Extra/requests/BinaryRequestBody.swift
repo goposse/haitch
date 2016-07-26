@@ -34,13 +34,28 @@
 
 import Foundation
 
+/**
+ An override of the RequestBody class that is used to send binary data inside of a request
+   body, e.g. an image.
+ 
+ - important: It is critically important to call build() on your BinaryRequestBody before
+     using it in an Http Request. Failing to do so will almost always result in a crash.
+ */
 public class BinaryRequestBody : RequestBody {
   
+  /**
+   Sets the data property with the data that is passed in.
+   
+   - parameter data: The binary data that will be put into the HttpRequest.
+   */
   public func setBinaryData(data: NSData) {
     // NB: content length is calculated automatically when the data property is set
     self.data = data
   }
   
+  /**
+   Overrides the generateData function and simply returns the data that has been set.
+   */
   override func generateData() -> NSMutableData {
     return self.data.mutableCopy() as! NSMutableData
   }

@@ -34,17 +34,35 @@
 
 import Foundation
 
+/**
+ An HttpCallProtocol class that logs out-going network requests.
+ */
 public class NetLoggerCallProtocol : HttpCallProtocol {
   
+  /// A date formatter used when logging requests.  Defaults the dateStyle to .ShortStyle.
   var dateFormatter: NSDateFormatter
   
+  /**
+   Default initializer for a NetLoggerCallProtocol.  Creates a default NSDateFormatter,
+     and sets its dateStyle to .ShortStyle.
+   */
   public init() {
     self.dateFormatter = NSDateFormatter()
     self.dateFormatter.dateStyle = .ShortStyle
   }
   
-  
-  // capture the request, log the destination with any relevant information, then act as a pass-thru
+  /**
+   One of the protocol functions.  Intercepts the request and logs the date, HTTP method,
+     and the string returned from fullUrlString() of the request.  
+   
+   - returns: A tuple with the following information:
+   
+       gotoNext: Bool - Always returns true.
+   
+       request: Request - Always returns the request that was passed in.
+   
+       response: Response? - Always returns nil.
+   */
   public func handleRequest(request: Request) -> (gotoNext: Bool, request: Request, response: Response?) {
     let date: NSDate = NSDate()
     let wrappedMethod: String = "[\(request.method)]"
@@ -53,7 +71,16 @@ public class NetLoggerCallProtocol : HttpCallProtocol {
     return (gotoNext: true, request: request, response: nil)
   }
 
-  // ignore the response for now, pass on the callback
+  /**
+   One of the protocol functions.  Right now it is only here because it is required to be 
+     implemented.  Does not modify or do anything.
+   
+   - returns: A tuple with the following information:
+   
+     gotoNext: Bool - Always returns true.
+   
+     response: Response - Always returns the response that was passed in.
+   */
   public func handleResponse(response: Response) -> (gotoNext: Bool, response: Response) {
     return (gotoNext: true, response: response)
   }
