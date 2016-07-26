@@ -33,7 +33,7 @@ class StringExtensionTests: XCTestCase {
     XCTAssertEqual("", choppedString)
   }
   
-  func testChopWithUnicodeCharacters() {
+  func testChopWithEmojis() {
     let testString = "👋🍾🎉👍💣"
     let getThatBombOutOfHere = testString.chop()
     XCTAssertEqual("👋🍾🎉👍", getThatBombOutOfHere)
@@ -65,6 +65,12 @@ class StringExtensionTests: XCTestCase {
     XCTAssertFalse(String.isNotEmpty(testString))
   }
   
+  func testQueryParametersWithNoParams() {
+    let link: String = "https://www.google.com"
+    let queryParams: [HttpKeyPair] = link.queryParameters()
+    XCTAssertTrue(queryParams.count == 0, "There should be no values in queryParams")
+  }
+  
   func testQueryParametersWithSingleParam() {
     let vidLink: String = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     let queryParams: [HttpKeyPair] = vidLink.queryParameters()
@@ -75,6 +81,35 @@ class StringExtensionTests: XCTestCase {
     }
   }
   
-    
+  func testQueryParametersWithMultipleUniqueParams() {
+    let vidLink: String = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&time=9920&color=red"
+    let queryParams: [HttpKeyPair] = vidLink.queryParameters()
+    XCTAssertTrue(queryParams.count == 3, "There should be 3 key pairs in here")
+    let expectedVals = [("v", "dQw4w9WgXcQ"), ("time", "9920"), ("color", "red")]
+    for (index, param) in queryParams.enumerate() {
+      XCTAssertEqual(expectedVals[index].0, param.key)
+      XCTAssertEqual(expectedVals[index].1, param.value.description)
+    }
+  }
+  
+  func testQueryParametersWithMultipleNonUniqueParams() {
+    let vidLink: String = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&v=abc123&color=red&v=12345"
+    let queryParams: [HttpKeyPair] = vidLink.queryParameters()
+    XCTAssertTrue(queryParams.count == 4, "There should be 4 key pairs in here")
+    let expectedVals = [("v", "dQw4w9WgXcQ"), ("v", "abc123"), ("color", "red"), ("v", "12345")]
+    for (index, param) in queryParams.enumerate() {
+      XCTAssertEqual(expectedVals[index].0, param.key)
+      XCTAssertEqual(expectedVals[index].1, param.value.description)
+    }
+  }
+  
+  func testStaticStringEscapeFunction() {
+    let testString = "💰😎👍👹"
+    guard let escapedString: String = testString.escapedString(), let unescapedEscapedString: String = escapedString.unescapedString() else {
+      XCTFail("These strings should not be nil")
+      return
+    }
+    XCTAssertEqual(testString, unescapedEscapedString)
+  }
   
 }

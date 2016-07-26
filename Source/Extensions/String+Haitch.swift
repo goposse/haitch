@@ -49,9 +49,8 @@ public extension String {
     if self.characters.count > 0 {
       let index: String.Index = self.endIndex.advancedBy(-1)
       return self.substringToIndex(index)
-    } else {
-      return self
     }
+    return self
   }
 
   /**
@@ -65,9 +64,8 @@ public extension String {
   internal static func isNotEmpty(string: String?) -> Bool {
     if string != nil {
       return ((string!).characters.count > 0)
-    } else {
-      return false
     }
+    return false
   }
 
   /**
@@ -106,22 +104,6 @@ public extension String {
           params.append(HttpKeyPair(key: splitPair[0], value: splitPair[1]))
         }
       }
-    }
-    return params
-  }
-  
-  /**
-   If the instance of the String is formatted as a URL query, this function returns
-     any query parameters within the query as a dictionary of String keys to String
-     values.
-   
-   - returns: A dictionary of String keys to String values for any found parameters
-       and their values.  If none are found, it returns an empty dictionary.
-   */
-  public func queryParametersDictionary() -> [String : String] {
-    var params: [String : String] = [:]
-    for keyPair: HttpKeyPair in queryParameters() {
-      params.updateValue(keyPair.value as! String, forKey: keyPair.key)
     }
     return params
   }

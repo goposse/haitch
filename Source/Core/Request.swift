@@ -305,6 +305,9 @@ public class Request {
     /**
      Sets the headers property of this Builder and returns it.
      
+     - note: The header characters should be ISO-8859-1, (basically ASCII), if you wish to send
+         other characters, you should escape the key and value.
+     
      - parameter headers: The headers to assign to this Builder.
      
      - returns: This Builder with the new headers assigned to it.
