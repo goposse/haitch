@@ -101,13 +101,16 @@ class HttpClientTests: XCTestCase {
     let timeoutInterval = client.configuration.timeoutInterval
     let url: String = "https://httpbin.org/get"
     let params: RequestParams = RequestParams(dictionary: ["a" : "bc", "1" : "23",
-      "this is a key with spaces" : "&?and a value with spaces and 😎?"])
+      "this is a key with spaces" : "?and a value with spaces and 😎?"])
     
     let request: Request = Request.Builder()
       .method(Haitch.Method.GET)
       .url(url)
       .params(params: params)
       .build()
+    
+    print(request.fullUrlString())
+    
     
     client.execute(request: request, responseKind: JsonResponse.self) { (response, error) in
       self.readyExpectation.fulfill()
@@ -255,6 +258,6 @@ class HttpClientTests: XCTestCase {
   }
   
   // More things to test...Test normal response, Call protocols, time outs, configurations, body parameters, headers
-  // expected errors, behavior with certain configurations
+  // expected errors, behavior with certain configurations, & symbols in parameters
   
 }
