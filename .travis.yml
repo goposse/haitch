@@ -1,6 +1,7 @@
 language: objective-c
 xcode_project: Haitch.xcodeproj
 xcode_scheme: HaitchTests
+xcode_sdk: iphonesimulator
 osx_image: xcode7.3
 
 before_install: rvm use $RVM_RUBY_VERSION
