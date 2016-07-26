@@ -4,10 +4,14 @@ xcode_scheme: HaitchTests
 xcode_sdk: iphonesimulator
 osx_image: xcode7.3
 
-before_install: rvm use $RVM_RUBY_VERSION
-install: bundle install --without=documentation --path ../travis_bundle_dir
-after_success: slather
+rvm:
+  - 2.2.2
+
+before_install: 
+  - gem install slather --no-ri --no-rdoc
 
 script:
 #Make sure all tests pass
 - xctool test -project Haitch.xcodeproj -scheme HaitchTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+
+after_success: slather
