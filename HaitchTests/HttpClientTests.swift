@@ -39,7 +39,7 @@ class HttpClientTests: XCTestCase {
   func testSimpleRequestWithBaseResponseType() {
     let client: HttpClient = HttpClient()
     let timeoutInterval = client.configuration.timeoutInterval
-    let url: String = "https://httpbin.org/"
+    let url: String = "http://httpbin.org/"
     
     let request: Request = Request.Builder()
       .method(Haitch.Method.GET)
@@ -74,7 +74,7 @@ class HttpClientTests: XCTestCase {
   func testSimpleJSONRequestWithNoQueryParameters() {
     let client: HttpClient = HttpClient()
     let timeoutInterval = client.configuration.timeoutInterval
-    let url: String = "https://httpbin.org/get"
+    let url: String = "http://httpbin.org/get"
     
     let request: Request = Request.Builder()
       .method(Haitch.Method.GET)
@@ -99,7 +99,7 @@ class HttpClientTests: XCTestCase {
   func testSimpleJSONRequestWithMultipleUniqueQueryParameters() {
     let client: HttpClient = HttpClient()
     let timeoutInterval = client.configuration.timeoutInterval
-    let url: String = "https://httpbin.org/get"
+    let url: String = "http://httpbin.org/get"
     let params: RequestParams = RequestParams(dictionary: ["a" : "bc", "1" : "23",
       "this is a key with spaces" : "?and a value with spaces and 😎?"])
     
@@ -137,7 +137,7 @@ class HttpClientTests: XCTestCase {
   func testSimpleJSONRequestWithHodgePodgeOfUniqueAndNonUniqueQueryParameters() {
     let client: HttpClient = HttpClient()
     let timeoutInterval = client.configuration.timeoutInterval
-    let url: String = "https://httpbin.org/get"
+    let url: String = "http://httpbin.org/get"
     let params: RequestParams = RequestParams(dictionary: ["Come on" : "and take a free ride",
       "abc" : "123", "😎" : "👹", "gotta catch" : "em all"])
     params.append(name: "Come on", value: "Eileen")
@@ -190,7 +190,7 @@ class HttpClientTests: XCTestCase {
   func testJSONRequestWithMultipleHeaders() {
     let client: HttpClient = HttpClient()
     let timeoutInterval = client.configuration.timeoutInterval
-    let url: String = "https://httpbin.org/get"
+    let url: String = "http://httpbin.org/get"
     let headers: [String : String] = ["hello" : "world", "hola" : "mundo", "👋".escapedString()! : "🌎".escapedString()!]
     let request: Request = Request.Builder()
       .method(Haitch.Method.GET)
@@ -225,7 +225,7 @@ class HttpClientTests: XCTestCase {
   func testJSONRequestWithMultipleHeadersInWhichSomeWereUpdatedBeforeTheRequestWasSent() {
     let client: HttpClient = HttpClient()
     let timeoutInterval = client.configuration.timeoutInterval
-    let url: String = "https://httpbin.org/get"
+    let url: String = "http://httpbin.org/get"
     var headers: [String : String] = ["hello" : "world", "hola" : "mundo"]
     headers.updateValue("solarsystem", forKey: "hello")
     let request: Request = Request.Builder()
