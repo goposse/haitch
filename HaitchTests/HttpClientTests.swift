@@ -23,6 +23,7 @@ class HttpClientTests: XCTestCase {
     super.tearDown()
   }
   
+  // MARK: - Helper functions
   func getJSONDictionaryFromResponse(response: Response?) -> [String : AnyObject]? {
     if let jsonResponse = response as? JsonResponse {
       guard let jsonDict = jsonResponse.json as? [String : AnyObject]
@@ -34,7 +35,43 @@ class HttpClientTests: XCTestCase {
     return nil
   }
   
-  func testSimpleJSONRequestWithNoParameters() {
+  // MARK: - Tests
+  func testSimpleRequestWithBaseResponseType() {
+    let client: HttpClient = HttpClient()
+    let timeoutInterval = client.configuration.timeoutInterval
+    let url: String = "https://httpbin.org/"
+    
+    let request: Request = Request.Builder()
+      .method(Haitch.Method.GET)
+      .url(url)
+      .build()
+    
+    client.execute(request: request) { (response, error) in
+      self.readyExpectation.fulfill()
+      
+      XCTAssertNotNil(response?.data, "This data should not be nil")
+      XCTAssertNil(error, "This error should be nil")
+      XCTAssertEqual(response?.statusCode, 200)
+      
+      let headers = response?.headers as? [String : String]
+      XCTAssertNotNil(headers)
+      if headers != nil {
+        // Test the headers have at least some values that we expect.  This could probably change,
+        // So if these tests fail, we may need to find another way to test headers.
+        XCTAssertEqual(headers!["Content-Type"], "text/html; charset=utf-8")
+        if response?.data != nil {
+          XCTAssertEqual(headers!["Content-Length"], "\(response!.data!.length)")
+          XCTAssertEqual(headers!["Server"], "nginx")
+        }
+      }
+    }
+    
+    waitForExpectationsWithTimeout(timeoutInterval) { (error: NSError?) in
+      XCTAssertNil(error, "This error should be nil")
+    }
+  }
+  
+  func testSimpleJSONRequestWithNoQueryParameters() {
     let client: HttpClient = HttpClient()
     let timeoutInterval = client.configuration.timeoutInterval
     let url: String = "https://httpbin.org/get"
@@ -57,18 +94,14 @@ class HttpClientTests: XCTestCase {
     waitForExpectationsWithTimeout(timeoutInterval) { (error: NSError?) in
       XCTAssertNil(error, "This error should be nil")
     }
-    
-    func testSimpleJsonRequestWithUniqueParameters() {
-      
-    }
   }
   
-  func testSimpleJSONRequestWithMultipleUniqueParameters() {
+  func testSimpleJSONRequestWithMultipleUniqueQueryParameters() {
     let client: HttpClient = HttpClient()
     let timeoutInterval = client.configuration.timeoutInterval
     let url: String = "https://httpbin.org/get"
     let params: RequestParams = RequestParams(dictionary: ["a" : "bc", "1" : "23",
-      "this is a key with spaces" : "and a value with spaces and 😎"])
+      "this is a key with spaces" : "&?and a value with spaces and 😎?"])
     
     let request: Request = Request.Builder()
       .method(Haitch.Method.GET)
@@ -87,7 +120,7 @@ class HttpClientTests: XCTestCase {
         if argsDict != nil {
           XCTAssertEqual(argsDict!["a"], "bc")
           XCTAssertEqual(argsDict!["1"], "23")
-          XCTAssertEqual(argsDict!["this is a key with spaces"], "and a value with spaces and 😎")
+          XCTAssertEqual(argsDict!["this is a key with spaces"], "?and a value with spaces and 😎?")
         }
       }
     }
@@ -98,7 +131,7 @@ class HttpClientTests: XCTestCase {
     }
   }
   
-  func testSimpleJSONRequestWithHodgePodgeOfUniqueAndNonUniqueParameters() {
+  func testSimpleJSONRequestWithHodgePodgeOfUniqueAndNonUniqueQueryParameters() {
     let client: HttpClient = HttpClient()
     let timeoutInterval = client.configuration.timeoutInterval
     let url: String = "https://httpbin.org/get"
@@ -151,7 +184,44 @@ class HttpClientTests: XCTestCase {
     }
   }
   
-  // More things to test...Call protocols, time outs, configurations, body parameters, headers
-  // expected errors.
+  func testJSONRequestWithMultipleHeaders() {
+    let client: HttpClient = HttpClient()
+    let timeoutInterval = client.configuration.timeoutInterval
+    let url: String = "https://httpbin.org/get"
+    let headers: [String : String] = ["hello" : "world", "hola" : "mundo", "👋".escapedString()! : "🌎".escapedString()!]
+    let request: Request = Request.Builder()
+      .method(Haitch.Method.GET)
+      .url(url)
+      .headers(headers)
+      .build()
+    
+    client.execute(request: request, responseKind: JsonResponse.self) { (response, error) in
+      self.readyExpectation.fulfill()
+      
+      let jsonData: [String : AnyObject]? = self.getJSONDictionaryFromResponse(response)
+      XCTAssertNotNil(jsonData, "This data should not be nil")
+      
+      if jsonData != nil {
+        guard let responseHeaders = jsonData!["headers"] as? [String : String] else {
+          XCTFail("Headers is nil, it shouldn't be")
+          return
+        }
+        XCTAssertEqual(responseHeaders["Hello"], "world")
+        XCTAssertEqual(responseHeaders["Hola"], "mundo")
+        XCTAssertEqual(responseHeaders["👋".escapedString()!], "🌎".escapedString())
+      }
+    }
+    
+    waitForExpectationsWithTimeout(timeoutInterval) { (error: NSError?) in
+      XCTAssertNil(error, "This error should be nil")
+    }
+    
+  }
+  
+  //func testJSONRequestWithMultipleHeadersInWhichSomeWereUpdatedBeforeTheRequestWasSent() {
+  //}
+  
+  // More things to test...Test normal response, Call protocols, time outs, configurations, body parameters, headers
+  // expected errors, behavior with certain configurations
   
 }
