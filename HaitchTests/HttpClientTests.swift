@@ -206,6 +206,7 @@ class HttpClientTests: XCTestCase {
           XCTFail("Headers is nil, it shouldn't be")
           return
         }
+        // For some reason, the headers come backw ith the first letter uppercased on the key
         XCTAssertEqual(responseHeaders["Hello"], "world")
         XCTAssertEqual(responseHeaders["Hola"], "mundo")
         XCTAssertEqual(responseHeaders["👋".escapedString()!], "🌎".escapedString())
@@ -218,8 +219,40 @@ class HttpClientTests: XCTestCase {
     
   }
   
-  //func testJSONRequestWithMultipleHeadersInWhichSomeWereUpdatedBeforeTheRequestWasSent() {
-  //}
+  func testJSONRequestWithMultipleHeadersInWhichSomeWereUpdatedBeforeTheRequestWasSent() {
+    let client: HttpClient = HttpClient()
+    let timeoutInterval = client.configuration.timeoutInterval
+    let url: String = "https://httpbin.org/get"
+    var headers: [String : String] = ["hello" : "world", "hola" : "mundo"]
+    headers.updateValue("solarsystem", forKey: "hello")
+    let request: Request = Request.Builder()
+      .method(Haitch.Method.GET)
+      .url(url)
+      .headers(headers)
+      .updateHeader(key: "whatsup", value: "woild")
+      .build()
+    
+    client.execute(request: request, responseKind: JsonResponse.self) { (response, error) in
+      self.readyExpectation.fulfill()
+      
+      let jsonData: [String : AnyObject]? = self.getJSONDictionaryFromResponse(response)
+      XCTAssertNotNil(jsonData, "This data should not be nil")
+      
+      if jsonData != nil {
+        guard let responseHeaders = jsonData!["headers"] as? [String : String] else {
+          XCTFail("Headers is nil, it shouldn't be")
+          return
+        }
+        XCTAssertEqual(responseHeaders["Hello"], "solarsystem")
+        XCTAssertEqual(responseHeaders["Hola"], "mundo")
+        XCTAssertEqual(responseHeaders["Whatsup"], "woild")
+      }
+    }
+    
+    waitForExpectationsWithTimeout(timeoutInterval) { (error: NSError?) in
+      XCTAssertNil(error, "This error should be nil")
+    }
+  }
   
   // More things to test...Test normal response, Call protocols, time outs, configurations, body parameters, headers
   // expected errors, behavior with certain configurations
