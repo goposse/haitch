@@ -33,7 +33,7 @@ Haitch `0.7+` and `development` require swift 2.2+. If you're using a version of
 
 Add the following line to your `Podfile`:
 
-`pod 'Haitch', '~> 0.7'`
+`pod 'Haitch', '~> 0.8'`
 
 Then run `pod update` or `pod install` (if starting from scratch).
 
