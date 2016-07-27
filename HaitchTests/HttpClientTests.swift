@@ -109,9 +109,6 @@ class HttpClientTests: XCTestCase {
       .params(params: params)
       .build()
     
-    print(request.fullUrlString())
-    
-    
     client.execute(request: request, responseKind: JsonResponse.self) { (response, error) in
       self.readyExpectation.fulfill()
       
