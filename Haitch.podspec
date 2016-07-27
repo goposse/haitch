@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'Haitch'
-  s.version = '0.7'
+  s.version = '0.8'
   s.license = 'Posse'
   s.summary = 'Simple HTTP for Swift'
   s.homepage = 'https://github.com/goposse/haitch'
