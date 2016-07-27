@@ -41,7 +41,7 @@ Then run `pod update` or `pod install` (if starting from scratch).
 
 Add the following line to your `Cartfile`:
 
-`github "goposse/haitch" ~> 0.7`
+`github "goposse/haitch" ~> 0.8`
 
 Run `carthage update` and then follow the installation instructions [here](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
 
