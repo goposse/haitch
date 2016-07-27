@@ -12,7 +12,6 @@ before_install:
 
 script:
 #Make sure all tests pass
-  - set -o pipefail && xcodebuild test -project Haitch.xcodeproj -scheme "Haitch iOS" -sdk iphonesimulator
+- xctool test -project Haitch.xcodeproj -scheme HaitchTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
 
-after_success: 
-  - slather
+after_success: slather
