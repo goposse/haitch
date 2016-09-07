@@ -40,10 +40,10 @@ import Foundation
  - important: It is critically important to call build() on your JsonRequestBody before
      using it in an Http Request. Failing to do so will almost always result in a crash.
  */
-public class JsonRequestBody : RequestBody {
+open class JsonRequestBody : RequestBody {
   
   /// The json object to be used when building the request body.  Default value is nil.
-  public var json: AnyObject? = nil
+  open var json: AnyObject? = nil
   
   /**
    Default initializer for the JsonRequestBody.  Sets the contentType property to 
@@ -64,11 +64,11 @@ public class JsonRequestBody : RequestBody {
    - returns: The json property converted into an NSMutableData object.  If the json property is
        nil, it will just return NSMutableData().
    */
-  public override func generateData() -> NSMutableData {
-    var jsonData: NSMutableData = NSMutableData()
+  open override func generateData() -> Data {
+    var jsonData = Data()
     if self.json != nil {
-      if let conversionData: NSData = try? NSJSONSerialization.dataWithJSONObject(self.json!, options: NSJSONWritingOptions()) {
-        jsonData = conversionData.mutableCopy() as! NSMutableData
+      if let conversionData: Data = try? JSONSerialization.data(withJSONObject: self.json!, options: JSONSerialization.WritingOptions()) {
+        jsonData = conversionData
       }
     }
     return jsonData

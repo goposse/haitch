@@ -37,23 +37,23 @@ import Foundation
 /**
  A Response class that generates a JSON object from the data property of the Response.
  */
-public class JsonResponse: Response {
+open class JsonResponse: Response {
 
   /// The JSON object that is generated from the data property.
-  private (set) public var json: AnyObject?
+  fileprivate (set) open var json: Any?
   
   /// An error property that is set if there is an error while attempting to set the 
   /// json property.
-  private (set) public var jsonError: AnyObject?
+  fileprivate (set) open var jsonError: Any?
   
   /**
    Initializes a JsonResponse with a Response.  All values from the passed in Response
    are set as the values in this JsonResponse.
-   
+	
    - parameter response: The response to initialize with.
    */
   public convenience required init(response: Response) {
-    self.init(request: response.request, data: response.data, headers: response.headers, statusCode: response.statusCode, error: response.error)
+    self.init(request: response.request, data: response.data as Data?, headers: response.headers, statusCode: response.statusCode, error: response.error)
   }
   
   /**
@@ -65,7 +65,7 @@ public class JsonResponse: Response {
    - parameter statusCode: The status code of the HTTP response.
    - parameter error: Optional error value if an error has occured.
    */
-  public override init(request: Request, data: NSData?, headers: [NSObject : AnyObject]?, statusCode: Int, error: NSError?) {
+  public override init(request: Request, data: Data?, headers: [AnyHashable : Any]?, statusCode: Int, error: Error?) {
     super.init(request: request, data: data, headers: headers, statusCode: statusCode, error: error)
     self.populateFromResponseData(data)
   }
@@ -77,20 +77,21 @@ public class JsonResponse: Response {
        there is an error serializing the JSON, then the jsonError property will be set and the
        json property will be nil.
    */
-  private func populateFromResponseData(data: NSData?) {
-    if data != nil {
-      var jsonError: NSError? = nil
-      var jsonObj: AnyObject?
-      do {
-        jsonObj = try NSJSONSerialization.JSONObjectWithData(data!,
-                options: [NSJSONReadingOptions.AllowFragments, NSJSONReadingOptions.MutableContainers, NSJSONReadingOptions.MutableLeaves])
-      } catch let error as NSError {
-        jsonError = error
-        jsonObj = nil
-      }
-      self.jsonError = jsonError
-      self.json = jsonObj
-    }
+  fileprivate func populateFromResponseData(_ responseData: Data?) {
+		guard let data = responseData else {
+			return
+		}
+		var jsonError: NSError? = nil
+		var jsonObj: Any?
+		do {
+			jsonObj = try JSONSerialization.jsonObject(with: data,
+							options: [JSONSerialization.ReadingOptions.allowFragments, JSONSerialization.ReadingOptions.mutableContainers, JSONSerialization.ReadingOptions.mutableLeaves])
+		} catch let error as NSError {
+			jsonError = error
+			jsonObj = nil
+		}
+		self.jsonError = jsonError
+		self.json = jsonObj
   }
   
 }

@@ -42,7 +42,7 @@ public struct HttpClientConfiguration {
   
   /// The amount of time in seconds before a request is considered to be timed out.
   /// Defaults to 60 seconds.
-  public var timeoutInterval: NSTimeInterval = 60.0
+  public var timeoutInterval: TimeInterval = 60.0
   
   /// Suffix used to denote multi-value form parameters.  Defaults to "[]"
   public var multiValueSuffix: String = "[]"

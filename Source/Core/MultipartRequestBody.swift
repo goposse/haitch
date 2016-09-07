@@ -33,6 +33,26 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 /**
  A RequestBody class used for Multipart Requests.
@@ -40,7 +60,7 @@ import Foundation
  - important: It is critically important to call build() on your RequestBody before
      using it in an Http Request. Failing to do so will almost always result in a crash.
  */
-public class MultipartRequestBody : RequestBody {
+open class MultipartRequestBody : RequestBody {
   
   /**
    An inner struct of the MultipartRequestBody used to help define MIME types for different
@@ -66,7 +86,7 @@ public class MultipartRequestBody : RequestBody {
     public static let ImageTiff: String  = "image/tiff"
 
     /// A map of extensions for the differnt MIME types.
-    private static let defaultExts = [
+    fileprivate static let defaultExts = [
       ImagePng :   "png",
       ImageJpeg :  "jpeg",
       ImageJpegP : "pjpeg",
@@ -83,7 +103,7 @@ public class MultipartRequestBody : RequestBody {
      - returns: The default extension of the mimeType that has been passed in.  If
          no match is found, "file" is returned.
      */
-    public static func defaultExtension(mimeType: String?) -> String {
+    public static func defaultExtension(_ mimeType: String?) -> String {
       var ext: String = "file"
       if mimeType != nil {
         if let matchExt = defaultExts[mimeType!] {
@@ -97,7 +117,7 @@ public class MultipartRequestBody : RequestBody {
   /**
    A BodyValue type that is used in RequestBody objects of a multipart request.
    */
-  private class Part : BodyValue {
+  fileprivate class Part : BodyValue {
     
     /// Static value of the Part class, set to "Content-Disposition"
     static let HeaderContentDisposition = "Content-Disposition"
@@ -119,8 +139,8 @@ public class MultipartRequestBody : RequestBody {
      - parameter fileName: The file name of the data being used.
      - parameter mimeType: The MIME type of the data being used.
      */
-    init(name: String, data: NSData, fileName: String?, mimeType: String?) {
-      super.init(name: name, value: data)
+    init(name: String, data: Data, fileName: String?, mimeType: String?) {
+      super.init(name: name, value: data as AnyObject)
       self.fileName = fileName
       self.mimeType = mimeType
     }
@@ -133,8 +153,7 @@ public class MultipartRequestBody : RequestBody {
          If there is no name, it uses untitled.  If there is no fileName, the fileName part is not included.
      */
     func contentDisposition() -> String {
-      let name: String = self.name ?? "untitled"
-      var dispositionValue: String = "form-data; name=\"\(name)\""
+      var dispositionValue: String = "form-data; name=\"\(self.name)\""
       if self.fileName != nil && self.fileName?.characters.count >= 0 {
         let fileName: String = self.fileName ?? "untitled.\(MimeType.defaultExtension(self.mimeType))"
         dispositionValue += "; fileName=\"\(fileName)\""
@@ -160,9 +179,9 @@ public class MultipartRequestBody : RequestBody {
   
   /// The boundary value of the MultipartRequestBody.  Defaulted in the initializer to
   /// "Boundary+\(arc4random())\(arc4random())"
-  public var boundary: String!
+  open var boundary: String!
   /// The boundary carriage returns and line feed value. Defaults to "\r\n"
-  public var boundaryCRLF = "\r\n"
+  open var boundaryCRLF = "\r\n"
   
   // MARK: - Initialization
   
@@ -183,7 +202,7 @@ public class MultipartRequestBody : RequestBody {
    - parameter fileName: The fileName of the Part object that will be created. Defaults to "form_file".
    - parameter mimeType: The mimeType of the Part object that will be created.  Defaults to nil
    */
-  public func addFilePart(fileData: NSData, name: String, fileName: String = "form_file", mimeType: String? = nil) {
+  open func addFilePart(_ fileData: Data, name: String, fileName: String = "form_file", mimeType: String? = nil) {
     self.values.append(Part(name: name, data: fileData, fileName: fileName, mimeType: mimeType))
   }
   
@@ -198,7 +217,7 @@ public class MultipartRequestBody : RequestBody {
    
    - returns: The initial boundary string, i.e. "--\\(boundaryString)\\(boundaryCRLF)"
    */
-  private func boundaryInitial(boundaryString: String) -> String {
+  fileprivate func boundaryInitial(_ boundaryString: String) -> String {
     return "--\(boundaryString)\(boundaryCRLF)"
   }
 
@@ -210,7 +229,7 @@ public class MultipartRequestBody : RequestBody {
    
    - returns: The inner boundary string, i.e. "\\(boundaryCRLF)--\\(boundaryString)\\(boundaryCRLF)"
    */
-  private func boundaryInner(boundaryString: String) -> String {
+  fileprivate func boundaryInner(_ boundaryString: String) -> String {
     return "\(boundaryCRLF)--\(boundaryString)\(boundaryCRLF)"
   }
 
@@ -222,7 +241,7 @@ public class MultipartRequestBody : RequestBody {
    
    - returns: The final boundary string, i.e. "\\(boundaryCRLF)--\\(boundaryString)--\\(boundaryCRLF)"
    */
-  private func boundaryFinal(boundaryString: String) -> String {
+  fileprivate func boundaryFinal(_ boundaryString: String) -> String {
     return "\(boundaryCRLF)--\(boundaryString)--\(boundaryCRLF)"
   }
 
@@ -235,43 +254,43 @@ public class MultipartRequestBody : RequestBody {
    - returns: The data generated for the MultipartRequestBody.  A whole lot of delimited boundaries and 
        and data.  I recommend checking out the source directly if you have any questions.
    */
-  public override func generateData() -> NSMutableData {
+  open override func generateData() -> Data {
 
     let initialBoundary: String = boundaryInitial(self.boundary)
     let innerBoundary: String = boundaryInner(self.boundary)
     let finalBoundary: String = boundaryFinal(self.boundary)
-    let data: NSMutableData = NSMutableData()
+    var data = Data()
     
-    data.appendData(initialBoundary.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
+    data.append(initialBoundary.data(using: String.Encoding.utf8, allowLossyConversion: false)!)
     
-    for (idx, bodyValue) in self.values.enumerate() {
+    for (idx, bodyValue) in self.values.enumerated() {
       if idx > 0 && idx < self.values.count {
         // append the inner boundary but skip the last value
-        data.appendData(innerBoundary.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
+        data.append(innerBoundary.data(using: String.Encoding.utf8, allowLossyConversion: false)!)
       }
       
       if let part: Part = bodyValue as? Part {
         for (key, value): (String, String) in part.partHeaders() {
           let valString: String = "\(key): \(value)\(boundaryCRLF)"
-          data.appendData(valString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
+          data.append(valString.data(using: String.Encoding.utf8, allowLossyConversion: false)!)
         }
         
         // add a line feed and then add the data
-        data.appendData(boundaryCRLF.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
-        data.appendData(part.value as! NSData)
+        data.append(boundaryCRLF.data(using: String.Encoding.utf8, allowLossyConversion: false)!)
+        data.append(part.value as! Data)
       } else {
         // append the content disposition header to the request body data
         let dispositionValue: String = "form-data; name=\"\(bodyValue.name)\""
         let headerString: String = "\(Part.HeaderContentDisposition): \(dispositionValue)\(boundaryCRLF)"
-        data.appendData(headerString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
+        data.append(headerString.data(using: String.Encoding.utf8, allowLossyConversion: false)!)
         
         // add a line feed and then add the value as data
-        data.appendData(boundaryCRLF.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
-        data.appendData("\(bodyValue.value)".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
+        data.append(boundaryCRLF.data(using: String.Encoding.utf8, allowLossyConversion: false)!)
+        data.append("\(bodyValue.value)".data(using: String.Encoding.utf8, allowLossyConversion: false)!)
       }
     }
     
-    data.appendData(finalBoundary.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
+    data.append(finalBoundary.data(using: String.Encoding.utf8, allowLossyConversion: false)!)
     
     return data
   }
@@ -286,7 +305,7 @@ public class MultipartRequestBody : RequestBody {
        - "Content-Type" : "multipart/form-data; boundary=\(self.boundary)"
        - "Content-Length" : "\(self.contentLength)"
    */
-  public override func bodyHeaders() -> [String : String] {
+  open override func bodyHeaders() -> [String : String] {
     return [
       "Content-Type" : "multipart/form-data; boundary=\(self.boundary)",
       "Content-Length" : "\(self.contentLength)"

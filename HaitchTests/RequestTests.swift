@@ -40,7 +40,7 @@ class RequestTests: XCTestCase {
     XCTAssertEqual(5, requestParams.allParams().count)
     let allParams = requestParams.allParams()
     for httpKeyPairParam in allParams {
-      XCTAssertEqual(httpKeyPairParam.value.description, params[httpKeyPairParam.key])
+      XCTAssertEqual("\(httpKeyPairParam.value)", params[httpKeyPairParam.key])
     }
   }
   

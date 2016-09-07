@@ -37,18 +37,18 @@ import Foundation
 /**
  An HttpCallProtocol class that logs out-going network requests.
  */
-public class NetLoggerCallProtocol : HttpCallProtocol {
+open class NetLoggerCallProtocol : HttpCallProtocol {
   
   /// A date formatter used when logging requests.  Defaults the dateStyle to .ShortStyle.
-  var dateFormatter: NSDateFormatter
+  var dateFormatter: DateFormatter
   
   /**
    Default initializer for a NetLoggerCallProtocol.  Creates a default NSDateFormatter,
      and sets its dateStyle to .ShortStyle.
    */
   public init() {
-    self.dateFormatter = NSDateFormatter()
-    self.dateFormatter.dateStyle = .ShortStyle
+    self.dateFormatter = DateFormatter()
+    self.dateFormatter.dateStyle = .short
   }
   
   /**
@@ -63,10 +63,10 @@ public class NetLoggerCallProtocol : HttpCallProtocol {
    
        response: Response? - Always returns nil.
    */
-  public func handleRequest(request: Request) -> (gotoNext: Bool, request: Request, response: Response?) {
-    let date: NSDate = NSDate()
+  open func handleRequest(_ request: Request) -> (gotoNext: Bool, request: Request, response: Response?) {
+    let date: Date = Date()
     let wrappedMethod: String = "[\(request.method)]"
-    let logString = "\(dateFormatter.stringFromDate(date)) \(wrappedMethod) \(request.fullUrlString())\n"
+    let logString = "\(dateFormatter.string(from: date)) \(wrappedMethod) \(request.fullUrlString())\n"
     print(logString)
     return (gotoNext: true, request: request, response: nil)
   }
@@ -81,7 +81,7 @@ public class NetLoggerCallProtocol : HttpCallProtocol {
    
      response: Response - Always returns the response that was passed in.
    */
-  public func handleResponse(response: Response) -> (gotoNext: Bool, response: Response) {
+  open func handleResponse(_ response: Response) -> (gotoNext: Bool, response: Response) {
     return (gotoNext: true, response: response)
   }
   

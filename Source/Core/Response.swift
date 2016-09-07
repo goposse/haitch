@@ -37,22 +37,22 @@ import Foundation
 /**
  Base response class for a response received from an an HTTP request.
  */
-public class Response {
+open class Response {
   
   /// The request that was sent that resulted in this response.
-  private (set) public var request: Request
+  fileprivate (set) open var request: Request
   
   /// The data block of the response.
-  private (set) public var data: NSData? = nil
+  fileprivate (set) open var data: Data? = nil
   
   /// The header values of the response.
-  private (set) public var headers: [NSObject : AnyObject]? = nil
+  fileprivate (set) open var headers: [AnyHashable : Any]? = nil
   
   /// The HTTP status code of the response
-  private (set) public var statusCode: Int = 0
+  fileprivate (set) open var statusCode: Int = 0
   
   /// If there was an error while creatuing this Response object, it is set.
-  private (set) public var error: NSError? = nil
+  fileprivate (set) open var error: Error? = nil
   
   /**
    Initializes a Response with another Response.  All values from the passed in Response
@@ -77,7 +77,7 @@ public class Response {
    - parameter statusCode: The status code of the HTTP response.
    - parameter error: Optional error value if an error has occured.
    */
-  public init(request: Request, data: NSData?, headers: [NSObject : AnyObject]?, statusCode: Int, error: NSError?) {
+  public init(request: Request, data: Data?, headers: [AnyHashable : Any]?, statusCode: Int, error: Error?) {
     self.request = request
     self.data = data
     self.headers = headers

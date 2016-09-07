@@ -71,13 +71,13 @@ public struct Method {
 // MARK: - Callbacks
 
 /// A callback used by the HTTPClient after a request has been executed.
-public typealias HttpClientCallback = (response: Response?, error: NSError?) -> Void
+public typealias HttpClientCallback = (_ response: Response?, _ error: Error?) -> Void
 
 /**
  A class that is used to execute HTTP requests.  Can optionally add HttpCallProtocols to it,
    and configure it with an HttpClientConfiguration.
  */
-public class HttpClient {
+open class HttpClient {
 
   // MARK: - Error configuration
   
@@ -118,19 +118,19 @@ public class HttpClient {
   }
 
   /// The NSURLSession used to make requests.
-  private(set) public var urlSession: NSURLSession!
+  fileprivate(set) open var urlSession: URLSession!
   
   /// The HTTP client configuration, uses the default if none is set.
-  private(set) public var configuration: HttpClientConfiguration!
+  fileprivate(set) open var configuration: HttpClientConfiguration!
 
   /// The NSURLSession configuration, configured with the configuration property.
   /// If the configuration property is not set, the default HttpClientConfiguration is used.
-  public var sessionConfiguration: NSURLSessionConfiguration!
+  public var sessionConfiguration: URLSessionConfiguration!
   
   /// An array of registered call protocols.  Protocols are ran in order from the lowest index and
   /// upwards to the last index.
   /// - seealso: HttpCallProtocol.swift
-  private (set) public var callProtocols = [HttpCallProtocol]()
+  fileprivate (set) open var callProtocols = [HttpCallProtocol]()
   
   
   // MARK: - Initialization
@@ -142,7 +142,7 @@ public class HttpClient {
     let configuration: HttpClientConfiguration = HttpClientConfiguration()
     self.configuration = configuration
     self.sessionConfiguration = self.sessionConfiguration(clientConfiguration: configuration)
-    self.urlSession = NSURLSession(configuration: self.sessionConfiguration)
+    self.urlSession = URLSession(configuration: self.sessionConfiguration)
   }
   
   /**
@@ -153,7 +153,7 @@ public class HttpClient {
   public init(configuration: HttpClientConfiguration) {
     self.configuration = configuration
     self.sessionConfiguration = self.sessionConfiguration(clientConfiguration: configuration)
-    self.urlSession = NSURLSession(configuration: self.sessionConfiguration)
+    self.urlSession = URLSession(configuration: self.sessionConfiguration)
   }
   
   
@@ -164,7 +164,7 @@ public class HttpClient {
    
    - parameter callProtocol: The HttpCallProtocol to append to the callProtocols property.
    */
-  public func addCallProtocol(callProtocol: HttpCallProtocol) {
+  public func addCallProtocol(_ callProtocol: HttpCallProtocol) {
     callProtocols.append(callProtocol)
   }
   
@@ -174,7 +174,7 @@ public class HttpClient {
    - parameter atIndex: The index of the HttpCallProtocol to remove from the callProtocols property.
    */
   public func removeCallProtocol(atIndex index: Int) {
-    callProtocols.removeAtIndex(index)
+    callProtocols.remove(at: index)
   }
 
   /**
@@ -184,7 +184,7 @@ public class HttpClient {
    - parameter callProtocol: The HttpCallProtocol to insert.
    */
   public func insertCallProtocol(atIndex index: Int, callProtocol: HttpCallProtocol) {
-    callProtocols.insert(callProtocol, atIndex: index)
+    callProtocols.insert(callProtocol, at: index)
   }
 
   
@@ -199,11 +199,11 @@ public class HttpClient {
    
    - returns: An NSURLSessionConfiguration configured with the passed in HttpClientConfiguration.
    */
-  private func sessionConfiguration(clientConfiguration clientConfiguration: HttpClientConfiguration) -> NSURLSessionConfiguration {
-    let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
+  fileprivate func sessionConfiguration(clientConfiguration: HttpClientConfiguration) -> URLSessionConfiguration {
+    let sessionConfig = URLSessionConfiguration.default
     sessionConfig.timeoutIntervalForRequest = clientConfiguration.timeoutInterval
     sessionConfig.timeoutIntervalForResource = clientConfiguration.timeoutInterval
-    sessionConfig.HTTPShouldSetCookies = clientConfiguration.shouldSetCookies
+    sessionConfig.httpShouldSetCookies = clientConfiguration.shouldSetCookies
     return sessionConfig
   }
   
@@ -226,7 +226,7 @@ public class HttpClient {
    - returns: The NSURLSessionDataTask that was executef.  Could return nil if there was an error or
        a protocol has halted the request.
    */
-  public func execute(request request: Request, responseKind: Response.Type? = nil, callback: HttpClientCallback?) -> NSURLSessionDataTask? {
+  open func execute(request: Request, responseKind: Response.Type? = nil, callback: HttpClientCallback?) -> URLSessionDataTask? {
     
     var modRequest: Request = request
     var response: Response? = nil
@@ -243,7 +243,7 @@ public class HttpClient {
         if self.configuration.shouldHaltOnProtocolSkip == true {
           // call protocol says stop
           if callback != nil {
-            callback!(response: response, error: nil)
+            callback!(response, nil)
           }
           return nil
         }
@@ -254,9 +254,9 @@ public class HttpClient {
     // make the network call
     let fullUrl: String = modRequest.fullUrlString()
     
-    if let url: NSURL = NSURL(string: fullUrl) {
-      let urlRequest: NSMutableURLRequest = NSMutableURLRequest(URL: url)
-      urlRequest.HTTPMethod = request.method
+    if let url: URL = URL(string: fullUrl) {
+      var urlRequest = URLRequest(url: url)
+      urlRequest.httpMethod = request.method
       
       if modRequest.headers.count > 0 {
         for (key, value): (String, String) in modRequest.headers {
@@ -265,7 +265,7 @@ public class HttpClient {
       }
       
       if modRequest.body != nil {
-        urlRequest.HTTPBody = modRequest.body?.bodyData()
+        urlRequest.httpBody = modRequest.body?.bodyData()
         urlRequest.setValue(modRequest.body?.contentType, forHTTPHeaderField: "Content-Type")
         if let bodyHeaders = modRequest.body?.bodyHeaders() {
           for (key, value): (String, String) in bodyHeaders {
@@ -274,44 +274,47 @@ public class HttpClient {
         }
       }
       
-      var httpSession: NSURLSession = self.urlSession
+      var httpSession: URLSession = self.urlSession
       if request.httpClientConfiguration != nil {
-        httpSession = NSURLSession(configuration: sessionConfiguration(clientConfiguration: request.httpClientConfiguration!))
+        httpSession = URLSession(configuration: sessionConfiguration(clientConfiguration: request.httpClientConfiguration!))
       }
       
-      var dataTask: NSURLSessionDataTask!
-      dataTask = httpSession.dataTaskWithRequest(urlRequest,
-        completionHandler: { (data: NSData?, urlResponse: NSURLResponse?, error: NSError?) in
+      var dataTask: URLSessionDataTask!
+      dataTask = httpSession.dataTask(with: urlRequest,
+        completionHandler: { (data: Data?, urlResponse: URLResponse?, error: Error?) in
           
-          var responseError: NSError? = error
+          var responseError = error
           var response: Response? = nil
-          if let httpResponse: NSHTTPURLResponse = urlResponse as? NSHTTPURLResponse {
-            if response?.statusCode >= 400 && self.configuration.treatStatusesAsErrors {
-              responseError = NSError(domain: ErrorConfig.Domain, code: httpResponse.statusCode,
-                userInfo: [
-                  NSLocalizedDescriptionKey : "The server returned with an error status code"
-                ])
-            }
-            let headers: [NSObject : AnyObject] = httpResponse.allHeaderFields
-            response = Response(request: modRequest, data: data, headers: headers, statusCode: httpResponse.statusCode,
-              error: responseError)
-            if responseKind != nil {
-              response = responseKind!.init(response: response!)
-            }
+					guard let httpResponse = urlResponse as? HTTPURLResponse else {
+						callback?(nil, error)
+						return
+					}
+					
+					if (httpResponse.statusCode >= 400 && httpResponse.statusCode < 600) &&
+						self.configuration.treatStatusesAsErrors {
+						responseError = NSError(domain: ErrorConfig.Domain, code: httpResponse.statusCode,
+								userInfo: [
+										NSLocalizedDescriptionKey : "The server returned with an error status code (\(httpResponse.statusCode))"
+								])
+					}
+					
+					let headers: [AnyHashable : Any] = httpResponse.allHeaderFields
+					response = Response(request: modRequest, data: data, headers: headers, statusCode: httpResponse.statusCode,
+						error: responseError)
+					if responseKind != nil {
+						response = responseKind!.init(response: response!)
+					}
 
-            // NOTE: The response with the modified Response type (if any) will be passed into the call protocols
-            //       and not the orignal (generic) Response
-            for callProtocol: HttpCallProtocol in self.callProtocols {
-              let cont: (gotoNext: Bool, response: Response) = callProtocol.handleResponse(response!)
-              response = cont.response
-              if cont.gotoNext == false {
-                break
-              }
-            }
-          }
-          if callback != nil {
-            callback!(response: response, error: responseError)
-          }
+					// NOTE: The response with the modified Response type (if any) will be passed into the call protocols
+					//       and not the orignal (generic) Response
+					for callProtocol: HttpCallProtocol in self.callProtocols {
+						let cont: (gotoNext: Bool, response: Response) = callProtocol.handleResponse(response!)
+						response = cont.response
+						if cont.gotoNext == false {
+							break
+						}
+					}
+					callback?(response, responseError)
         })
       
       dataTask.resume()
@@ -321,7 +324,7 @@ public class HttpClient {
         let error: NSError = standardNetError(HttpClient.ErrorCodes.BadUrl,
           statusCode: 0, message: "The specified URL was invalid. Check and try again.",
           userInfo: nil)
-        callback!(response: nil, error: error)
+        callback!(nil, error)
       }
     }
     
@@ -342,16 +345,16 @@ public class HttpClient {
    
    - returns: The NSError generated using the parameters that are passed in.
    */
-  private func standardNetError(errorCode: Int, statusCode: Int, message: String, userInfo: [NSObject : AnyObject]?) -> NSError {
-    var errorInfo = userInfo
-    if errorInfo == nil {
-      errorInfo = [NSObject : AnyObject]()
-    }
-    
+  fileprivate func standardNetError(_ errorCode: Int, statusCode: Int, message: String, userInfo: [String : Any]?) -> NSError {
+		guard var errorInfo = userInfo else {
+			return NSError(domain: HttpClient.ErrorConfig.Domain, code: errorCode,
+			               userInfo: [String : Any]())
+		}
+		
     // append the error information to the error object
-    errorInfo![HttpClient.ErrorConfig.InfoKeyMessage] = message
-    errorInfo![HttpClient.ErrorConfig.InfoKeyStatusCode] = statusCode
-    errorInfo![HttpClient.ErrorConfig.InfoKeyErrorCode] = errorCode
+    errorInfo[HttpClient.ErrorConfig.InfoKeyMessage] = message
+    errorInfo[HttpClient.ErrorConfig.InfoKeyStatusCode] = statusCode
+    errorInfo[HttpClient.ErrorConfig.InfoKeyErrorCode] = errorCode
     
     return NSError(domain: HttpClient.ErrorConfig.Domain, code: errorCode, userInfo: errorInfo)
   }

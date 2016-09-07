@@ -60,7 +60,7 @@ public protocol HttpCallProtocol {
        response: Response? - See the description of gotoNext, but this can be used for an early
          response without a network call if desired.
    */
-  func handleRequest(request: Request) -> (gotoNext: Bool, request: Request, response: Response?)
+  func handleRequest(_ request: Request) -> (gotoNext: Bool, request: Request, response: Response?)
   
   /**
    Called when an HTTP response has been received.
@@ -76,6 +76,6 @@ public protocol HttpCallProtocol {
            and if it is not overwritten by a subsequent protocol, the response that will be 
            used in the callback.
    */
-  func handleResponse(response: Response) -> (gotoNext: Bool, response: Response)
+  func handleResponse(_ response: Response) -> (gotoNext: Bool, response: Response)
   
 }

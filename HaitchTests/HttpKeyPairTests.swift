@@ -30,7 +30,7 @@ class HttpKeyPairTests: XCTestCase {
     percentEncodedVerboseKey = verboseKey.escapedString()!
     percentEncodedVerboseValue = verboseValue.escapedString()!
     verboseHttpKeyPair = HttpKeyPair(
-      key: verboseKey, value: verboseValue, keySuffix: verboseSuffix, keyPrefix: verbosePrefix)
+      key: verboseKey, value: verboseValue as AnyObject, keySuffix: verboseSuffix, keyPrefix: verbosePrefix)
   }
   
   override func tearDown() {

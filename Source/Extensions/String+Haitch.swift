@@ -47,8 +47,8 @@ public extension String {
    */
   internal func chop() -> String {
     if self.characters.count > 0 {
-      let index: String.Index = self.endIndex.advancedBy(-1)
-      return self.substringToIndex(index)
+      let index: String.Index = self.characters.index(self.endIndex, offsetBy: -1)
+      return self.substring(to: index)
     }
     return self
   }
@@ -61,7 +61,7 @@ public extension String {
    - returns: True if the string passed in is not nil and it has a character
       count that is greater than zero.  Otherwise, it will return false.
   */
-  internal static func isNotEmpty(string: String?) -> Bool {
+  internal static func isNotEmpty(_ string: String?) -> Bool {
     if string != nil {
       return ((string!).characters.count > 0)
     }
@@ -80,8 +80,8 @@ public extension String {
    - returns: The passed in string with percent encoding in place of characters
        that are not allowed within a URL query.
    */
-  public static func escape(string: String) -> String? {
-    return string.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+  public static func escape(_ string: String) -> String? {
+    return string.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
   }
   
   /**
@@ -93,15 +93,14 @@ public extension String {
    */
   public func queryParameters() -> [HttpKeyPair] {
     var params: [HttpKeyPair] = []
-    let startRange: Range<String.Index>? = self.rangeOfString("?")
+		let startRange: Range<String.Index>? = self.range(of: "?")
     if startRange != nil {
-      let queryRange: Range<String.Index> = startRange!.startIndex.advancedBy(1) ..< self.endIndex
-      let queryString: String = self.substringWithRange(queryRange)
-      let stringPairs: [String] = queryString.componentsSeparatedByString("&")
+      let queryString: String = self.substring(from: self.index(startRange!.lowerBound, offsetBy: 1))
+      let stringPairs: [String] = queryString.components(separatedBy: "&")
       for pair: String in stringPairs {
-        let splitPair: [String] = pair.componentsSeparatedByString("=")
+        let splitPair: [String] = pair.components(separatedBy: "=")
         if splitPair.count == 2 {
-          params.append(HttpKeyPair(key: splitPair[0], value: splitPair[1]))
+          params.append(HttpKeyPair(key: splitPair[0], value: splitPair[1] as AnyObject))
         }
       }
     }
@@ -132,7 +131,7 @@ public extension String {
      the matching UTF-8 characters.
    */
   public func unescapedString() -> String? {
-    return self.stringByRemovingPercentEncoding
+		return self.removingPercentEncoding
   }
 
 }

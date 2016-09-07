@@ -38,7 +38,7 @@ import Foundation
  Helper class for common network related tasks such as building query strings, 
    URL paths, etc.
  */
-public class NetHelper {
+open class NetHelper {
   
   // MARK: - Query string helpers
   
@@ -51,7 +51,7 @@ public class NetHelper {
    
    - returns: A query string built from the params parameter.
    */
-  public class func queryString(params params: RequestParams) -> String {
+  open class func queryString(params: RequestParams) -> String {
     var queryStringVal: String = ""
     let parts: [HttpKeyPair] = params.allParams()
     for keyPair: HttpKeyPair in parts {
@@ -82,7 +82,7 @@ public class NetHelper {
    - returns: The path parameter appended with a '?' and the url encoded parameters
        from the params parameter.
    */
-  public class func pathWithParams(path: String, params: RequestParams?) -> String {
+  open class func pathWithParams(_ path: String, params: RequestParams?) -> String {
     var outPath = path
     if let qsParams: RequestParams = params {
       let queryString: String = self.queryString(params: qsParams)
@@ -102,7 +102,7 @@ public class NetHelper {
    - returns: The urlString parameter appended with the query string generated from the params
        parameter.
    */
-  public class func urlWithParams(urlString: String, paramPrefix: String = "", params: RequestParams?) -> String {
+  open class func urlWithParams(_ urlString: String, paramPrefix: String = "", params: RequestParams?) -> String {
     var fullPath = urlString
     var inParams: RequestParams = RequestParams()
     if params != nil {
@@ -112,10 +112,10 @@ public class NetHelper {
     if String.isNotEmpty(queryStringValue) {
       // Check if the path already contains a query delimiter, if so, use the ampersand instead
       var appendChar: String = "?"
-      if fullPath.rangeOfString("?") != nil {
+      if fullPath.range(of: "?") != nil {
         appendChar = "&"
       }
-      fullPath = fullPath.stringByAppendingString("\(appendChar)\(queryStringValue!)")
+      fullPath = fullPath + "\(appendChar)\(queryStringValue!)"
     }
     return fullPath
   }
@@ -130,7 +130,7 @@ public class NetHelper {
    - returns: The joined path built from the path parameter and the parts parameter,
        i.e. path/part[0]/part[1]/...
    */
-  public static func joinedPath(path path: String, parts: String...) -> String {
+  open static func joinedPath(path: String, parts: String...) -> String {
     var finalPath: String = path
     if parts.count > 0 {
       if path.hasSuffix("/") {

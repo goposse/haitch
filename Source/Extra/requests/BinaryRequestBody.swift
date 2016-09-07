@@ -41,14 +41,14 @@ import Foundation
  - important: It is critically important to call build() on your BinaryRequestBody before
      using it in an Http Request. Failing to do so will almost always result in a crash.
  */
-public class BinaryRequestBody : RequestBody {
+open class BinaryRequestBody : RequestBody {
   
   /**
    Sets the data property with the data that is passed in.
    
    - parameter data: The binary data that will be put into the HttpRequest.
    */
-  public func setBinaryData(data: NSData) {
+  open func setBinaryData(_ data: Data) {
     // NB: content length is calculated automatically when the data property is set
     self.data = data
   }
@@ -56,8 +56,8 @@ public class BinaryRequestBody : RequestBody {
   /**
    Overrides the generateData function and simply returns the data that has been set.
    */
-  override func generateData() -> NSMutableData {
-    return self.data.mutableCopy() as! NSMutableData
+  override func generateData() -> Data {
+    return self.data
   }
   
 }

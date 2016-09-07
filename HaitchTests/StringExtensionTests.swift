@@ -77,7 +77,7 @@ class StringExtensionTests: XCTestCase {
     XCTAssertTrue(queryParams.count == 1, "There should only be one key pair in here")
     for param in queryParams {
       XCTAssertEqual("v", param.key)
-      XCTAssertEqual("dQw4w9WgXcQ", param.value.description)
+      XCTAssertEqual("dQw4w9WgXcQ", "\(param.value)")
     }
   }
   
@@ -86,9 +86,9 @@ class StringExtensionTests: XCTestCase {
     let queryParams: [HttpKeyPair] = vidLink.queryParameters()
     XCTAssertTrue(queryParams.count == 3, "There should be 3 key pairs in here")
     let expectedVals = [("v", "dQw4w9WgXcQ"), ("time", "9920"), ("color", "red")]
-    for (index, param) in queryParams.enumerate() {
+    for (index, param) in queryParams.enumerated() {
       XCTAssertEqual(expectedVals[index].0, param.key)
-      XCTAssertEqual(expectedVals[index].1, param.value.description)
+      XCTAssertEqual(expectedVals[index].1, "\(param.value)")
     }
   }
   
@@ -97,9 +97,9 @@ class StringExtensionTests: XCTestCase {
     let queryParams: [HttpKeyPair] = vidLink.queryParameters()
     XCTAssertTrue(queryParams.count == 4, "There should be 4 key pairs in here")
     let expectedVals = [("v", "dQw4w9WgXcQ"), ("v", "abc123"), ("color", "red"), ("v", "12345")]
-    for (index, param) in queryParams.enumerate() {
+    for (index, param) in queryParams.enumerated() {
       XCTAssertEqual(expectedVals[index].0, param.key)
-      XCTAssertEqual(expectedVals[index].1, param.value.description)
+      XCTAssertEqual(expectedVals[index].1, "\(param.value)")
     }
   }
   

@@ -40,13 +40,13 @@ import Foundation
  
  - seealso: HttpKeyPair
  */
-public class RequestParams {
+open class RequestParams {
   
   /// An array of HttpKeyPair values.
-  private var params: [HttpKeyPair]!
+  fileprivate var params: [HttpKeyPair]!
   
   /// count ocurrences of a HttpKeyPair key value in the params array
-  private var keyCounts: [String : Int] = [:]
+  fileprivate var keyCounts: [String : Int] = [:]
   
   /**
    Default initializer for RequestParams.  Defaults the params property to an empty array.
@@ -80,7 +80,7 @@ public class RequestParams {
        that has a key peoperty that matches the name parameter passed in.  If there are
        no matches, an empty array is returned.
    */
-  public subscript(name: String) -> [String] {
+  open subscript(name: String) -> [String] {
     get {
       let results: [HttpKeyPair] = self.params.filter { $0.key == name }
       var outArr: [String] = []
@@ -103,8 +103,8 @@ public class RequestParams {
    - parameter key: The value of the HttpKeyPair that will be built and appended to
        the params property.
    */
-  public func append(name key: String, value: String) {
-    self.params.append(HttpKeyPair(key: key, value: value))
+  open func append(name key: String, value: String) {
+    self.params.append(HttpKeyPair(key: key, value: value as AnyObject))
     var count = self.keyCounts[key] ?? 0
     count += 1
     self.keyCounts[key] = count
@@ -115,7 +115,7 @@ public class RequestParams {
    
    - returns: The params property.
    */
-  public func allParams() -> [HttpKeyPair] {
+  open func allParams() -> [HttpKeyPair] {
     return self.params
   }
   
@@ -124,7 +124,7 @@ public class RequestParams {
  
    - returns: true if the key is registered more than once in the params array, otherwise false
    */
-  public func isKeyMultiValue(key key: String) -> Bool {
+  open func isKeyMultiValue(key: String) -> Bool {
     let count = self.keyCounts[key] ?? 0
     return count > 1
   }
@@ -136,29 +136,29 @@ public class RequestParams {
    an HTTP request, e.g. URL, method, headers, etc.  Follows a builder pattern to
    easily create a Request.
  */
-public class Request {
+open class Request {
   
   /// The base URL of the request.
-  private(set) public var url: String = String()
+  fileprivate(set) open var url: String = String()
   
   /// Query parameters added to the URL.
   ///
   /// - note: These are not passed into the body, they are formatted and appended
   ///   to the URL.
-  private(set) public var params: RequestParams!
+  fileprivate(set) open var params: RequestParams!
   
   /// The method used for the request, e.g. GET, POST, etc.
   /// - seealso: The Method struct within HttpClient.swift.
-  private(set) public var method: String = String()
+  fileprivate(set) open var method: String = String()
   
   /// The headers of the HTTP request.
-  private(set) public var headers: [String : String] = [String : String]()
+  fileprivate(set) open var headers: [String : String] = [String : String]()
   
   /// The body of the HTTP request.
-  private(set) public var body: RequestBody?
+  fileprivate(set) open var body: RequestBody?
   
   /// The HTTP configuration of the request.
-  private(set) public var httpClientConfiguration: HttpClientConfiguration?
+  fileprivate(set) open var httpClientConfiguration: HttpClientConfiguration?
   
   /**
    Initializes a Request with a Builder object.  All properties of this Request
@@ -181,7 +181,7 @@ public class Request {
    
    - returns: A new Builder object built from the properties of this Request object.
    */
-  public func newBuilder() -> Request.Builder {
+  open func newBuilder() -> Request.Builder {
     return Request.Builder()
       .url(url: self.url, params: self.params)
       .method(self.method)
@@ -196,7 +196,7 @@ public class Request {
    - returns: The full URL String of the Request, which is the base URL appended with a
        query string built from any parameters that have been added to it.
    */
-  public func fullUrlString() -> String {
+  open func fullUrlString() -> String {
     return NetHelper.urlWithParams(self.url, params: self.params)
   }
 
@@ -206,7 +206,7 @@ public class Request {
    A Builder class for the Request object.  Follows the builder pattern to allow for
      easy construction and readability of Request objects.
    */
-  public class Builder {
+  open class Builder {
     
     /// The base URL of the request.
     internal var url: String!
@@ -246,7 +246,7 @@ public class Request {
      
      - returns: This Builder with the new URL assigned to it.
      */
-    public func url(url: String) -> Request.Builder {
+    open func url(_ url: String) -> Request.Builder {
       self.url = url
       return self
     }
@@ -259,7 +259,7 @@ public class Request {
      
      - returns: This Builder with the new URL and params assigned to it.
      */
-    public func url(url url: String, params: RequestParams) -> Request.Builder {
+    open func url(url: String, params: RequestParams) -> Request.Builder {
       self.url = url
       self.params = params
       return self
@@ -272,7 +272,7 @@ public class Request {
      
      - returns: This Builder with the new params assigned to it.
      */
-    public func params(params params: RequestParams) -> Request.Builder {
+    open func params(params: RequestParams) -> Request.Builder {
       self.params = params
       return self
     }
@@ -285,7 +285,7 @@ public class Request {
      
      - returns: This Builder with the new param added to it.
      */
-    public func addParam(name name: String, value: String) -> Request.Builder {
+    open func addParam(name: String, value: String) -> Request.Builder {
       self.params.append(name: name, value: value)
       return self
     }
@@ -297,7 +297,7 @@ public class Request {
      
      - returns: This Builder with the new HTTP method assigned to it.
      */
-    public func method(method: String) -> Request.Builder {
+    open func method(_ method: String) -> Request.Builder {
       self.method = method
       return self
     }
@@ -312,7 +312,7 @@ public class Request {
      
      - returns: This Builder with the new headers assigned to it.
      */
-    public func headers(headers: [String : String]) -> Request.Builder {
+    open func headers(_ headers: [String : String]) -> Request.Builder {
       self.headers = headers
       return self
     }
@@ -325,7 +325,7 @@ public class Request {
      
      - returns: This Builder with the new header added to it.
      */
-    public func updateHeader(key key: String, value: String) -> Request.Builder {
+    open func updateHeader(key: String, value: String) -> Request.Builder {
       self.headers.updateValue(value, forKey: key)
       return self
     }
@@ -337,7 +337,7 @@ public class Request {
      
      - returns: This Builder with the new body assigned to it.
      */
-    public func body(body: RequestBody?) -> Request.Builder {
+    open func body(_ body: RequestBody?) -> Request.Builder {
       self.body = body
       return self
     }
@@ -349,7 +349,7 @@ public class Request {
      
      - returns: This Builder with the new configuration assigned to it.
      */
-    public func httpClientConfiguration(clientConfig: HttpClientConfiguration?) -> Request.Builder {
+    open func httpClientConfiguration(_ clientConfig: HttpClientConfiguration?) -> Request.Builder {
       self.httpClientConfiguration = clientConfig
       return self
     }
@@ -359,7 +359,7 @@ public class Request {
      
      - returns: A Request object built from the properties of this Builder object.
      */
-    public func build() -> Request {
+    open func build() -> Request {
       return Request(builder: self)
     }
 

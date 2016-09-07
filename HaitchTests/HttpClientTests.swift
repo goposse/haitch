@@ -15,7 +15,7 @@ class HttpClientTests: XCTestCase {
   
   override func setUp() {
     super.setUp()
-    readyExpectation = expectationWithDescription("ready")
+    readyExpectation = expectation(description: "ready")
   }
   
   override func tearDown() {
@@ -24,10 +24,10 @@ class HttpClientTests: XCTestCase {
   }
   
   // MARK: - Helper functions
-  func getJSONDictionaryFromResponse(response: Response?) -> [String : AnyObject]? {
+  func getJSONDictionaryFromResponse(_ response: Response?) -> [String : AnyObject]? {
     if let jsonResponse = response as? JsonResponse {
       guard let jsonDict = jsonResponse.json as? [String : AnyObject]
-          where jsonResponse.jsonError == nil else {
+          , jsonResponse.jsonError == nil else {
         return nil
       }
       return jsonDict
@@ -46,29 +46,28 @@ class HttpClientTests: XCTestCase {
       .url(url)
       .build()
     
-    client.execute(request: request) { (response, error) in
+    _ = client.execute(request: request) { (response, error) in
       self.readyExpectation.fulfill()
       
       XCTAssertNotNil(response?.data, "This data should not be nil")
       XCTAssertNil(error, "This error should be nil")
       XCTAssertEqual(response?.statusCode, 200)
       
-      let headers = response?.headers as? [String : String]
+      let headers = response?.headers
       XCTAssertNotNil(headers)
       if headers != nil {
         // Test the headers have at least some values that we expect.  This could probably change,
         // So if these tests fail, we may need to find another way to test headers.
-        XCTAssertEqual(headers!["Content-Type"], "text/html; charset=utf-8")
+        XCTAssertEqual(headers!["Content-Type"] as? String, "text/html; charset=utf-8")
         if response?.data != nil {
-          XCTAssertEqual(headers!["Content-Length"], "\(response!.data!.length)")
-          XCTAssertEqual(headers!["Server"], "nginx")
+          XCTAssertEqual(headers!["Content-Length"] as? String, "\(response!.data!.count)")
+          XCTAssertEqual(headers!["Server"] as? String, "nginx")
         }
       }
     }
-    
-    waitForExpectationsWithTimeout(timeoutInterval) { (error: NSError?) in
-      XCTAssertNil(error, "This error should be nil")
-    }
+		waitForExpectations(timeout: timeoutInterval) { (error) in
+			XCTAssertNil(error, "This error should be nil")
+		}
   }
   
   func testSimpleJSONRequestWithNoQueryParameters() {
@@ -81,7 +80,7 @@ class HttpClientTests: XCTestCase {
       .url(url)
       .build()
     
-    client.execute(request: request, responseKind: JsonResponse.self) { (response, error) in
+    _ = client.execute(request: request, responseKind: JsonResponse.self) { (response, error) in
       self.readyExpectation.fulfill()
     
       let jsonData: [String : AnyObject]? = self.getJSONDictionaryFromResponse(response)
@@ -91,7 +90,7 @@ class HttpClientTests: XCTestCase {
       }
     }
     
-    waitForExpectationsWithTimeout(timeoutInterval) { (error: NSError?) in
+    waitForExpectations(timeout: timeoutInterval) { (error) in
       XCTAssertNil(error, "This error should be nil")
     }
   }
@@ -112,7 +111,7 @@ class HttpClientTests: XCTestCase {
     print(request.fullUrlString())
     
     
-    client.execute(request: request, responseKind: JsonResponse.self) { (response, error) in
+    _ = client.execute(request: request, responseKind: JsonResponse.self) { (response, error) in
       self.readyExpectation.fulfill()
       
       let jsonData: [String : AnyObject]? = self.getJSONDictionaryFromResponse(response)
@@ -128,7 +127,7 @@ class HttpClientTests: XCTestCase {
       }
     }
     
-    waitForExpectationsWithTimeout(timeoutInterval) { (error: NSError?) in
+    waitForExpectations(timeout: timeoutInterval) { (error) in
       XCTAssertNil(error, "This error should be nil")
       
     }
@@ -152,7 +151,7 @@ class HttpClientTests: XCTestCase {
       .params(params: params)
       .build()
     
-    client.execute(request: request, responseKind: JsonResponse.self) { (response, error) in
+    _ = client.execute(request: request, responseKind: JsonResponse.self) { (response, error) in
       self.readyExpectation.fulfill()
       
       let jsonData: [String : AnyObject]? = self.getJSONDictionaryFromResponse(response)
@@ -182,7 +181,7 @@ class HttpClientTests: XCTestCase {
       }
     }
     
-    waitForExpectationsWithTimeout(timeoutInterval) { (error: NSError?) in
+    waitForExpectations(timeout: timeoutInterval) { (error: Error?) in
       XCTAssertNil(error, "This error should be nil")
     }
   }
@@ -198,7 +197,7 @@ class HttpClientTests: XCTestCase {
       .headers(headers)
       .build()
     
-    client.execute(request: request, responseKind: JsonResponse.self) { (response, error) in
+    _ = client.execute(request: request, responseKind: JsonResponse.self) { (response, error) in
       self.readyExpectation.fulfill()
       
       let jsonData: [String : AnyObject]? = self.getJSONDictionaryFromResponse(response)
@@ -216,7 +215,7 @@ class HttpClientTests: XCTestCase {
       }
     }
     
-    waitForExpectationsWithTimeout(timeoutInterval) { (error: NSError?) in
+    waitForExpectations(timeout: timeoutInterval) { (error: Error?) in
       XCTAssertNil(error, "This error should be nil")
     }
     
@@ -235,7 +234,7 @@ class HttpClientTests: XCTestCase {
       .updateHeader(key: "whatsup", value: "woild")
       .build()
     
-    client.execute(request: request, responseKind: JsonResponse.self) { (response, error) in
+    _ = client.execute(request: request, responseKind: JsonResponse.self) { (response, error) in
       self.readyExpectation.fulfill()
       
       let jsonData: [String : AnyObject]? = self.getJSONDictionaryFromResponse(response)
@@ -252,7 +251,7 @@ class HttpClientTests: XCTestCase {
       }
     }
     
-    waitForExpectationsWithTimeout(timeoutInterval) { (error: NSError?) in
+    waitForExpectations(timeout: timeoutInterval) { (error: Error?) in
       XCTAssertNil(error, "This error should be nil")
     }
   }

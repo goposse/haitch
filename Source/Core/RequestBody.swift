@@ -41,20 +41,20 @@ import Foundation
  - important: It is critically important to call build() on your RequestBody before 
      using it in an Http Request. Failing to do so will almost always result in a crash.
  */
-public class RequestBody {
+open class RequestBody {
   
   // MARK: - body value storage
   
   /**
    Stores a key and value for populating a body form.
    */
-  public class BodyValue {
+  open class BodyValue {
     
     /// The key of the BodyValue
-    public var name: String
+    open var name: String
     
     /// The value of the BodyValue
-    public var value: AnyObject
+    open var value: AnyObject
     
     /**
      Initializer for a BodyValue
@@ -73,21 +73,21 @@ public class RequestBody {
   
   /// The content type of the body, which describes the data contained within it.
   /// The base RequestBody content type is application/x-www-form-urlencoded.
-  public var contentType: String!
+  open var contentType: String!
   
   /// The content length of the data within the body.  It is set when the data
   /// property is set.
-  private (set) public var contentLength: Int = -1
+  fileprivate (set) open var contentLength: Int = -1
   
   /// The data of the body.  When set, it also sets the contentLength property.
-  internal (set) public var data: NSData! {
+  internal (set) open var data: Data! {
     didSet {
-      self.contentLength = data.length
+      self.contentLength = data.count
     }
   }
   
   /// An array of BodyValue objects that are used when building the RequestBody.
-  internal (set) public var values: [BodyValue] = []
+  internal (set) open var values: [BodyValue] = []
   
   // MARK: - Initialization
   
@@ -101,7 +101,7 @@ public class RequestBody {
   public init() {
     values = []
     contentType = "application/x-www-form-urlencoded"
-    data = NSData()
+    data = Data()
   }
   
   
@@ -115,7 +115,7 @@ public class RequestBody {
    - parameter value: The value of the BodyValue that will be constructed and added to the
        values property.
    */
-  public func addValue(name: String, value: AnyObject) {
+  open func addValue(_ name: String, value: AnyObject) {
     values.append(BodyValue(name: name, value: value))
   }
   
@@ -124,8 +124,8 @@ public class RequestBody {
    
    - parameter atIndex: The index of the BodyValue to remove from the values property.
    */
-  public func removeValue(atIndex index: Int) {
-    values.removeAtIndex(index)
+  open func removeValue(atIndex index: Int) {
+    values.remove(at: index)
   }
   
   /**
@@ -133,7 +133,7 @@ public class RequestBody {
    
    - returns: The data property of this RequestBody.
    */
-  public func bodyData() -> NSData {
+  open func bodyData() -> Data {
     return self.data
   }
   
@@ -142,7 +142,7 @@ public class RequestBody {
    
    - returns: The body headers of this RequestBody, always returns an empty dictionary.
    */
-  public func bodyHeaders() -> [String : String] {
+  open func bodyHeaders() -> [String : String] {
     return [:]
   }
 
@@ -158,7 +158,7 @@ public class RequestBody {
    
    - returns: A RequestParams object built from the values that were passed in.
    */
-  internal func bodyValuesToParams(values: [BodyValue]) -> RequestParams {
+  internal func bodyValuesToParams(_ values: [BodyValue]) -> RequestParams {
     let params: RequestParams = RequestParams()
     for bodyValue: BodyValue in values {
       params.append(name: bodyValue.name, value: "\(bodyValue.value)")
@@ -177,9 +177,9 @@ public class RequestBody {
    - important: It is critically important that you call this function before using
        this RequestBody in an HTTP request.
    */
-  public func build() {
-    self.data = generateData()
-    self.contentLength = data.length
+  open func build() {
+    self.data = generateData() as Data!
+    self.contentLength = data.count
   }
 
   /**
@@ -189,13 +189,13 @@ public class RequestBody {
    
    - returns: The data that has been generated from this RequestBody.
    */
-  internal func generateData() -> NSMutableData {
-    var data: NSMutableData = NSMutableData()
-    let queryString: String = NetHelper.queryString(params: self.bodyValuesToParams(self.values))
-    if let stringData = queryString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-      data = stringData.mutableCopy() as! NSMutableData
-    }
-    return data
+  internal func generateData() -> Data {
+		var data = Data()
+		let queryString: String = NetHelper.queryString(params: self.bodyValuesToParams(self.values))
+		if let requestData = queryString.data(using: String.Encoding.utf8, allowLossyConversion: false) {
+			data = requestData
+		}
+		return data
   }
   
 }
