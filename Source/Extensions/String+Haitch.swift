@@ -80,10 +80,13 @@ public extension String {
    - returns: The passed in string with percent encoding in place of characters
        that are not allowed within a URL query.
    */
-  public static func escape(_ string: String) -> String? {
-    return string.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+  public static func escape(_ string: String) -> String {
+		if let s: String = string.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
+			return s
+		}
+		return ""
   }
-  
+	
   /**
    If the instance of the String is formatted as a URL query, this function returns
      any query parameters within the query as an array of HttpKeyPair objects.
@@ -117,7 +120,7 @@ public extension String {
    - returns: The instance of the String with percent encoding in place of characters
      that are not allowed within a URL query.
    */
-  public func escapedString() -> String? {
+  public func escapedString() -> String {
     return String.escape(self)
   }
 
@@ -130,8 +133,11 @@ public extension String {
    - returns: The instance of the String with all percent encoding replaced by
      the matching UTF-8 characters.
    */
-  public func unescapedString() -> String? {
-		return self.removingPercentEncoding
+  public func unescapedString() -> String {
+		guard let s = self.removingPercentEncoding else {
+			return ""
+		}
+		return s
   }
 
 }

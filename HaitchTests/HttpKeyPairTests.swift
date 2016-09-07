@@ -13,12 +13,12 @@ class HttpKeyPairTests: XCTestCase {
   
   // MARK: - Variables
   var verboseHttpKeyPair: HttpKeyPair!
-  var verboseKey: String!
-  var verboseValue: String!
-  var verboseSuffix: String!
-  var verbosePrefix: String!
-  var percentEncodedVerboseKey: String!
-  var percentEncodedVerboseValue: String!
+  var verboseKey: String = ""
+  var verboseValue: String = ""
+  var verboseSuffix: String = ""
+  var verbosePrefix: String = ""
+  var percentEncodedVerboseKey: String = ""
+  var percentEncodedVerboseValue: String = ""
   override func setUp() {
     super.setUp()
     // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -26,9 +26,9 @@ class HttpKeyPairTests: XCTestCase {
     verboseValue = "some VALUE!!! making sure it will need to be percent encoded."
     verbosePrefix = "space array"
     verboseSuffix = "[]abc123"
-    
-    percentEncodedVerboseKey = verboseKey.escapedString()!
-    percentEncodedVerboseValue = verboseValue.escapedString()!
+		
+    percentEncodedVerboseKey = verboseKey.escapedString()
+    percentEncodedVerboseValue = verboseValue.escapedString()
     verboseHttpKeyPair = HttpKeyPair(
       key: verboseKey, value: verboseValue as AnyObject, keySuffix: verboseSuffix, keyPrefix: verbosePrefix)
   }

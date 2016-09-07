@@ -99,9 +99,9 @@ class HttpClientTests: XCTestCase {
     let client: HttpClient = HttpClient()
     let timeoutInterval = client.configuration.timeoutInterval
     let url: String = "http://httpbin.org/get"
-    let params: RequestParams = RequestParams(dictionary: ["a" : "bc", "1" : "23",
+    let params = RequestParams(dictionary: ["a" : "bc", "1" : "23",
       "this is a key with spaces" : "?and a value with spaces and 😎?"])
-    
+		
     let request: Request = Request.Builder()
       .method(Haitch.Method.GET)
       .url(url)
@@ -190,7 +190,7 @@ class HttpClientTests: XCTestCase {
     let client: HttpClient = HttpClient()
     let timeoutInterval = client.configuration.timeoutInterval
     let url: String = "http://httpbin.org/get"
-    let headers: [String : String] = ["hello" : "world", "hola" : "mundo", "👋".escapedString()! : "🌎".escapedString()!]
+    let headers: [String : String] = ["hello" : "world", "hola" : "mundo", "👋".escapedString() : "🌎".escapedString()]
     let request: Request = Request.Builder()
       .method(Haitch.Method.GET)
       .url(url)
@@ -211,7 +211,7 @@ class HttpClientTests: XCTestCase {
         // For some reason, the headers come backw ith the first letter uppercased on the key
         XCTAssertEqual(responseHeaders["Hello"], "world")
         XCTAssertEqual(responseHeaders["Hola"], "mundo")
-        XCTAssertEqual(responseHeaders["👋".escapedString()!], "🌎".escapedString())
+        XCTAssertEqual(responseHeaders["👋".escapedString()], "🌎".escapedString())
       }
     }
     

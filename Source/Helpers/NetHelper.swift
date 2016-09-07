@@ -52,7 +52,7 @@ open class NetHelper {
    - returns: A query string built from the params parameter.
    */
   open class func queryString(params: RequestParams) -> String {
-    var queryStringVal: String = ""
+		var queryStringVal: String = ""
     let parts: [HttpKeyPair] = params.allParams()
     for keyPair: HttpKeyPair in parts {
       let isMultiVal = params.isKeyMultiValue(key: keyPair.key)
@@ -103,19 +103,18 @@ open class NetHelper {
        parameter.
    */
   open class func urlWithParams(_ urlString: String, paramPrefix: String = "", params: RequestParams?) -> String {
-    var fullPath = urlString
-    var inParams: RequestParams = RequestParams()
-    if params != nil {
-      inParams = params!
-    }
-    let queryStringValue: String? = queryString(params: inParams)
+		guard let inParams = params else {
+			return urlString
+		}
+		var fullPath = urlString
+    let queryStringValue = queryString(params: inParams)
     if String.isNotEmpty(queryStringValue) {
       // Check if the path already contains a query delimiter, if so, use the ampersand instead
       var appendChar: String = "?"
       if fullPath.range(of: "?") != nil {
         appendChar = "&"
       }
-      fullPath = fullPath + "\(appendChar)\(queryStringValue!)"
+      fullPath = fullPath + "\(appendChar)\(queryStringValue)"
     }
     return fullPath
   }

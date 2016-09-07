@@ -43,7 +43,7 @@ public struct HttpKeyPair {
   
   /// The key of the key value pair.  When set, the escapedKey is also set as
   /// the escaped string of the key.
-  public var key: String! {
+  public var key: String = "" {
     didSet {
       self.escapedKey = String.escape(key)
     }
@@ -51,9 +51,9 @@ public struct HttpKeyPair {
   
   /// The value of the key value pair.  When set, the escapedValueString key is also
   /// set as the escaped string of the value.
-  public var value: Any! {
+  public var value: Any = "" {
     didSet {
-      self.escapedValueString = String.escape("\(value!)")
+      self.escapedValueString = String.escape("\(value)")
     }
   }
   /// The prefix for the key when it is converted to a part String. Defaults to an empty String.
@@ -74,19 +74,19 @@ public struct HttpKeyPair {
   
   /// The escapedKey is the key, but with all characters that are not permitted in
   /// a URL query replaced with percent encoding.
-  fileprivate (set) public var escapedKey: String!
+  fileprivate (set) public var escapedKey: String = ""
   
   /// The escapedValueString is the value, but with all characters that are not permitted in
   /// a URL query replaced with percent encoding.
-  fileprivate (set) public var escapedValueString: String!
+  fileprivate (set) public var escapedValueString: String = ""
   
   /// The escapedKeyPrefix is the keyPrefix, but with all characters that are not permitted in
   /// a URL query replaced with percent encoding.
-  fileprivate (set) public var escapedKeyPrefix: String!
+  fileprivate (set) public var escapedKeyPrefix: String = ""
   
   /// The escapedKeySuffix is the keySuffix, but with all characters that are not permitted in
   /// a URL query replaced with percent encoding.
-  fileprivate (set) public var escapedKeySuffix: String!
+  fileprivate (set) public var escapedKeySuffix: String = ""
   
   // MARK: - Initialization
   /**
@@ -117,11 +117,11 @@ public struct HttpKeyPair {
    - returns: Percent encoded query string part with format *({keyPrefix}[{key}]||{key}){keySuffix}={value}*
    */
   public func toPartString(keyPrefix: String = "", keySuffix: String = "") -> String {
-    var key = self.escapedKey
+		var key: String = self.escapedKey
     if keyPrefix != "" {
       key = "\(keyPrefix)[\(key)]"
     }
-    return "\(key)\(keySuffix)=\(self.escapedValueString!)"
+    return "\(key)\(keySuffix)=\(self.escapedValueString)"
   }
   
 }
