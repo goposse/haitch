@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'Haitch'
-  s.version = '0.7'
+  s.version = '0.9.0'
   s.license = 'Posse'
   s.summary = 'Simple HTTP for Swift'
   s.homepage = 'https://github.com/goposse/haitch'
@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.authors = { 'Posse Productions LLC' => 'apps@goposse.com' }
   s.source = { :git => 'https://github.com/goposse/haitch.git', :tag => s.version }
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
   s.osx.deployment_target = '10.9'
 
   s.source_files = 'Source/**/*.swift'
