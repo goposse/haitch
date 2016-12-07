@@ -324,14 +324,14 @@
 				TargetAttributes = {
 					A3034B7F1BFD61F4003F8705 = {
 						CreatedOnToolsVersion = 7.1.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 					};
 					A3034B8F1BFD6229003F8705 = {
 						CreatedOnToolsVersion = 7.1.1;
 					};
 					CA8887F71D400317005A8390 = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 					};
 				};
 			};

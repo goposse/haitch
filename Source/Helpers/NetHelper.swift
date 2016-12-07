@@ -56,10 +56,10 @@ open class NetHelper {
     let parts: [HttpKeyPair] = params.allParams()
     for keyPair: HttpKeyPair in parts {
       let isMultiVal = params.isKeyMultiValue(key: keyPair.key)
-      let prefix = keyPair.escapedKeyPrefix ?? ""
+      let prefix = keyPair.escapedKeyPrefix
       var suffix = ""
       if isMultiVal {
-        suffix = keyPair.escapedKeySuffix ?? ""
+        suffix = keyPair.escapedKeySuffix
       }
       queryStringVal += "\(keyPair.toPartString(keyPrefix: prefix, keySuffix: suffix))&"
     }
