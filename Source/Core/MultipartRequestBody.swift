@@ -179,7 +179,7 @@ open class MultipartRequestBody : RequestBody {
   
   /// The boundary value of the MultipartRequestBody.  Defaulted in the initializer to
   /// "Boundary+\(arc4random())\(arc4random())"
-  open var boundary: String!
+  open var boundary: String = ""
   /// The boundary carriage returns and line feed value. Defaults to "\r\n"
   open var boundaryCRLF = "\r\n"
   
@@ -192,6 +192,7 @@ open class MultipartRequestBody : RequestBody {
   public override init() {
     super.init()
     self.boundary = "Boundary+\(arc4random())\(arc4random())"
+    self.contentType = "multipart/form-data; boundary=\(self.boundary)"
   }
   
   /**
