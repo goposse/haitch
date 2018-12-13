@@ -5,6 +5,8 @@
 
 >H (named aitch /ˈeɪtʃ/ or haitch /ˈheɪtʃ/ in Ireland and parts of Australasia; plural aitches or haitches)
 
+**HAITCH, ALONG WITH POSSE, IS NO MORE. THIS LIBRARY IS UNMAINTAINED AND IF YOU'RE USING IT YOU SHOULDN'T BE. THANKS!**
+
 Haitch is an HTTP Client written in Swift for iOS and Mac OS X.
 
 [![CocoaPods](https://img.shields.io/cocoapods/v/Haitch.svg?style=flat-square)](#)
